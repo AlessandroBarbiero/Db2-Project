@@ -1,4 +1,4 @@
-package it.polimi.Db2_Project;
+package it.polimi.Db2_Project.web;
 
 import java.io.*;
 import java.sql.DriverManager;
@@ -16,8 +16,8 @@ public class HelloServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String DB_URL = "jdbc:mysql://localhost:3306/db2_database"; //Replace with your own configuration
-        final String USER = "XXX"; //Replace with your own configuration
-        final String PASS = "XXX"; //Replace with your own configuration
+        final String USER = "root"; //Replace with your own configuration
+        final String PASS = "myperson30"; //Replace with your own configuration
         String result = "Connection worked";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
