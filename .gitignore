@@ -1,4 +1,4 @@
 # Project exclude paths
-
+/src/main/main/java/it/polimi/Db2_Project/HelloServlet
 /out/
 /target/
