@@ -16,8 +16,8 @@ public class HelloServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String DB_URL = "jdbc:mysql://localhost:3306/db2_database"; //Replace with your own configuration
-        final String USER = "Ale"; //Replace with your own configuration
-        final String PASS = "Alessandro98"; //Replace with your own configuration
+        final String USER = "XXX"; //Replace with your own configuration
+        final String PASS = "XXX"; //Replace with your own configuration
         String result = "Connection worked";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
