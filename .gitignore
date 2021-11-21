@@ -1,4 +1,6 @@
 # Project exclude paths
-/src/main/main/java/it/polimi/Db2_Project/HelloServlet
 /out/
 /target/
+
+# excluded because contains personal links to the database
+/src/main/java/it/polimi/Db2_Project/web/HelloServlet.java
