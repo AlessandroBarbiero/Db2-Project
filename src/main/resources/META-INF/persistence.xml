@@ -3,7 +3,22 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
-    <persistence-unit name="default">
+
+    <!-- added on 21/11/2021 watching slide 58 of JPA-EM-extended -->
+    <persistence-unit name= "UserEJB" transaction-type="JTA">
+       <!-- watch out this <jta-data-source> MissionDB </jta-data-source>  -->
+        <class>it.polimi.Db2_Project.entities.UserEntity</class>
+        <class>it.polimi.Db2_Project.entities.OrderEntity</class>
+        <class>it.polimi.Db2_Project.entities.BlacklistEntity</class>
+        <class>it.polimi.Db2_Project.entities.EmployeeEntity</class>
+        <class>it.polimi.Db2_Project.entities.OptionalProductEntity</class>
+        <class>it.polimi.Db2_Project.entities.ServiceEntity</class>
+        <class>it.polimi.Db2_Project.entities.ServicePackageEntity</class>
+        <class>it.polimi.Db2_Project.entities.ValidityPeriodEntity</class>
+
+        <properties>
+            <property name="eclipselink.logging.level" value="FINE" />
+        </properties>
 
     </persistence-unit>
 </persistence>
