@@ -4,6 +4,7 @@
 <head>
     <title>JSP - Hello World</title>
 </head>
+<jsp:forward page="/UserPages/landing-page.jsp"/>
 <body>
 <h1><%= "Hello World!" %>
 </h1>

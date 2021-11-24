@@ -43,7 +43,7 @@ public class ServiceEntity implements Serializable {
 //---------------------------------------
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable (name="servicecomposition",
+    @JoinTable (name="service_composition",
             joinColumns = @JoinColumn(name="serviceId"),
             inverseJoinColumns= @JoinColumn (name="servicePackageId"))
     private List<ServicePackageEntity> servicePackages;
@@ -134,27 +134,33 @@ public class ServiceEntity implements Serializable {
     }
 
     public void setNumberOfSms(int numberOfSms) {
-        this.numberOfSms = numberOfSms;
+        if(type.equals(ServiceType.MOBILE_PHONE))
+            this.numberOfSms = numberOfSms;
     }
 
     public void setNumberOfMinutes(int numberOfMinutes) {
-        this.numberOfMinutes = numberOfMinutes;
+        if(type.equals(ServiceType.MOBILE_PHONE))
+            this.numberOfMinutes = numberOfMinutes;
     }
 
     public void setExtraMinutesFee(float extraMinutesFee) {
-        this.extraMinutesFee = extraMinutesFee;
+        if(type.equals(ServiceType.MOBILE_PHONE))
+            this.extraMinutesFee = extraMinutesFee;
     }
 
     public void setExtraSmsFee(float extraSmsFee) {
-        this.extraSmsFee = extraSmsFee;
+        if(type.equals(ServiceType.MOBILE_PHONE))
+            this.extraSmsFee = extraSmsFee;
     }
 
     public void setNumberOfGb(int numberOfGb) {
-        this.numberOfGb = numberOfGb;
+        if(type.equals(ServiceType.MOBILE_INTERNET) || type.equals(ServiceType.FIXED_INTERNET))
+            this.numberOfGb = numberOfGb;
     }
 
     public void setExtraGbFee(float extraGbFee) {
-        this.extraGbFee = extraGbFee;
+        if(type.equals(ServiceType.MOBILE_INTERNET) || type.equals(ServiceType.FIXED_INTERNET))
+            this.extraGbFee = extraGbFee;
     }
 
 }

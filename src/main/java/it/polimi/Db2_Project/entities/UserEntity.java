@@ -25,7 +25,7 @@ public class UserEntity implements Serializable {
     @Column(name = "email", unique=true, nullable=false)
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orders;
 
 
