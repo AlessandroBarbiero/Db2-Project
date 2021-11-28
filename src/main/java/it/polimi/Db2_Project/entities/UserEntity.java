@@ -6,6 +6,22 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "User.findByUsername",
+                        query = "SELECT u " +
+                                "FROM UserEntity u " +
+                                "WHERE u.username = :username"
+                ),
+                @NamedQuery(
+                        name = "User.findByEmail",
+                        query = "SELECT u " +
+                                "FROM UserEntity u " +
+                                "WHERE u.email = :email"
+                )
+        }
+)
 @Table(name = "user", schema = "db2_database")
 public class UserEntity implements Serializable {
 

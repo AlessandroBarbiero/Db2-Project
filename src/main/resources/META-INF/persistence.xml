@@ -9,13 +9,13 @@
        <!-- watch out this <jta-data-source> MissionDB </jta-data-source>  -->
         <class>it.polimi.Db2_Project.entities.UserEntity</class>
         <class>it.polimi.Db2_Project.entities.OrderEntity</class>
-        <class>it.polimi.Db2_Project.entities.BlacklistEntity</class>
+    <!--    <class>it.polimi.Db2_Project.entities.BlacklistEntity</class>
         <class>it.polimi.Db2_Project.entities.EmployeeEntity</class>
         <class>it.polimi.Db2_Project.entities.OptionalProductEntity</class>
         <class>it.polimi.Db2_Project.entities.ServiceEntity</class>
         <class>it.polimi.Db2_Project.entities.ServicePackageEntity</class>
         <class>it.polimi.Db2_Project.entities.ValidityPeriodEntity</class>
-
+    -->
         <properties>
             <property name="eclipselink.logging.level" value="FINE" />
         </properties>

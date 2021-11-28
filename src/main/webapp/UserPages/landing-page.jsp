@@ -1,3 +1,4 @@
+<%@ page import="it.polimi.Db2_Project.web.RegistrationServlet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -14,17 +15,25 @@
     <table style="width: 50%">
         <tr>
             <td>Username</td>
-            <td><input type="text" name="username" /></td>
+            <td><input type="text" name="username" required/></td>
         </tr>
         <tr>
             <td>New Password</td>
-            <td><input type="password" name="password" /></td>
+            <td><input type="password" name="password" required/></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="text" name="email" /></td>
+            <td><input type="email" name="email"/></td>
         </tr></table>
     <input type="submit" value="Submit" /></form>
+
+    <p>
+        <%
+            String errorString = (String)request.getSession().getAttribute(RegistrationServlet.getErrorString());
+            if(errorString!=null)
+                out.println("<font color = red>" + errorString + " </font>");
+        %>
+    </p>
 
 <br/>
 
