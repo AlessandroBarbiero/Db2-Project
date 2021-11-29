@@ -2,6 +2,8 @@ package it.polimi.Db2_Project.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "order", schema = "db2_database")
 public class OrderEntity {
@@ -12,8 +14,14 @@ public class OrderEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn ( name = "userId")
+    @JoinColumn (name = "userId")
     private UserEntity user;
+
+    @ManyToMany
+    @JoinTable (name="optional_product_choice",
+            joinColumns = @JoinColumn(name="orderId"),
+            inverseJoinColumns= @JoinColumn (name="optionalProductName"))
+    private List<OptionalProductEntity> optionalProducts;
 
     public OrderEntity() {
     }
