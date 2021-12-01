@@ -11,10 +11,17 @@ public class ServicePackageEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+//%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false)
     private int id;
+
+    @Column(name = "name", nullable=false)
+    private String name;
+
+//%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
     @ManyToMany
     @JoinTable (name="service_composition",
@@ -23,8 +30,49 @@ public class ServicePackageEntity implements Serializable {
     private List<ServiceEntity> services;
 
     @ManyToMany
-    @JoinTable (name="possible_extensions",
+    @JoinTable (name="possible_validity_period",
+            joinColumns = @JoinColumn(name="servicePackageId"),
+            inverseJoinColumns= @JoinColumn (name="validityPeriodId"))
+    private List<ValidityPeriodEntity> possibleValidityPeriods;
+
+    @ManyToMany
+    @JoinTable (name="possible_extentions",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="optionalProductName"))
     private List<OptionalProductEntity> possibleOptionalProducts;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="servicePackage", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderEntity> orders;
+
+
+
+//%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
+
+    public ServicePackageEntity() {
+    }
+
+    public ServicePackageEntity(String name) {
+        this.name = name;
+    }
+
+//%%%%%%%%%%%%%%%%%% GETTERS %%%%%%%%%%%%%%%%%%%%%%%%
+
+    public int getId() {
+    return id;
+}
+
+    public String getName() {
+        return name;
+    }
+
+//%%%%%%%%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%%%%%%
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

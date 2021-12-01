@@ -27,6 +27,8 @@ public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+//%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false)
@@ -41,9 +43,12 @@ public class UserEntity implements Serializable {
     @Column(name = "email", unique=true, nullable=false)
     private String email;
 
+//%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orders;
 
+//%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
 
     public UserEntity() {
     }
