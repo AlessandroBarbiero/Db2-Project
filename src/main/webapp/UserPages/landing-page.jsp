@@ -11,6 +11,7 @@
 <h1><%= "Landing Page!" %>
 </h1>
 
+<!-- REGISTRATION FORM -->
 <form action="registration" method="post">
     <table style="width: 50%">
         <tr>
@@ -25,7 +26,8 @@
             <td>Email</td>
             <td><input type="email" name="email"/></td>
         </tr></table>
-    <input type="submit" value="Submit" /></form>
+    <input type="submit" value="Submit" />
+</form>
 
     <p>
         <%
@@ -36,6 +38,22 @@
     </p>
 
 <br/>
+
+<!-- LOGIN FORM -->
+<form action="login" method="post">
+    <table style="width: 50%">
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name="username" required/></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="password" required/></td>
+        </tr>
+        </table>
+    <input type="submit" value="Submit" />
+</form>
+
 
 </body>
 

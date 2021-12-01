@@ -61,6 +61,16 @@ public class ValidityPeriodEntity implements Serializable {
         return numberOfMonths;
     }
 
+    public List<OrderEntity> getOrders()
+    {
+        return orders;
+    }
+
+    public List<ServicePackageEntity> getServicePackages()
+    {
+        return servicePackages;
+    }
+
 //%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%
 
     public void setId(int id) {
@@ -73,6 +83,16 @@ public class ValidityPeriodEntity implements Serializable {
 
     public void setNumberOfMonths(int numberOfMonths) {
         this.numberOfMonths = numberOfMonths;
+    }
+
+    public void setOrders(List<OrderEntity> orders)
+    {
+        this.orders = orders;
+    }
+
+    public void setServicePackages(List<ServicePackageEntity> servicePackages)
+    {
+        this.servicePackages = servicePackages;
     }
 
 }

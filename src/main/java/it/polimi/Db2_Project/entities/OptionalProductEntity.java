@@ -66,4 +66,14 @@ public class OptionalProductEntity implements Serializable {
         this.monthlyFee = monthlyFee;
     }
 
+    public void setRelatedServicePackages(List<ServicePackageEntity> relatedServicePackages)
+    {
+        this.relatedServicePackages = relatedServicePackages;
+    }
+
+    public void setRelatedOrders(List<OrderEntity> relatedOrders)
+    {
+        this.relatedOrders = relatedOrders;
+    }
+
 }

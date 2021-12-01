@@ -44,4 +44,17 @@ public class UserService {
                 .setParameter("email", email)
                 .getResultStream().findFirst();
     }
+
+    // if username and password are correct it returns the user, else it returns an empty object
+    public Optional<UserEntity> checkCredentials(String username, String password) {
+        Optional<UserEntity> user = findUserByUsername(username);
+
+        // if username is not specified or the password is incorrect
+        if(!user.isPresent() || !password.equals(user.get().getPassword())){
+            return Optional.empty();
+        }
+
+        return user;
+
+    }
 }

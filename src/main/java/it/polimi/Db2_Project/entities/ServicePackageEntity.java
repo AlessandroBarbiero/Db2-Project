@@ -45,7 +45,6 @@ public class ServicePackageEntity implements Serializable {
     private List<OrderEntity> orders;
 
 
-
 //%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
 
     public ServicePackageEntity() {
@@ -65,6 +64,26 @@ public class ServicePackageEntity implements Serializable {
         return name;
     }
 
+    public List<ServiceEntity> getServices()
+    {
+        return services;
+    }
+
+    public List<ValidityPeriodEntity> getPossibleValidityPeriods()
+    {
+        return possibleValidityPeriods;
+    }
+
+    public List<OptionalProductEntity> getPossibleOptionalProducts()
+    {
+        return possibleOptionalProducts;
+    }
+
+    public List<OrderEntity> getOrders()
+    {
+        return orders;
+    }
+
 //%%%%%%%%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%%%%%%
 
     public void setId(int id) {
@@ -73,6 +92,26 @@ public class ServicePackageEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setServices(List<ServiceEntity> services)
+    {
+        this.services = services;
+    }
+
+    public void setPossibleValidityPeriods(List<ValidityPeriodEntity> possibleValidityPeriods)
+    {
+        this.possibleValidityPeriods = possibleValidityPeriods;
+    }
+
+    public void setPossibleOptionalProducts(List<OptionalProductEntity> possibleOptionalProducts)
+    {
+        this.possibleOptionalProducts = possibleOptionalProducts;
+    }
+
+    public void setOrders(List<OrderEntity> orders)
+    {
+        this.orders = orders;
     }
 
 }
