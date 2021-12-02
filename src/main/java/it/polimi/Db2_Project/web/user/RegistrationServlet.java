@@ -1,4 +1,4 @@
-package it.polimi.Db2_Project.web;
+package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.services.UserService;
 import jakarta.ejb.EJB;

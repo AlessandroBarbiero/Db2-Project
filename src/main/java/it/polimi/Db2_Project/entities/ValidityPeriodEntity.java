@@ -28,7 +28,7 @@ public class ValidityPeriodEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable (name="possible_validity_period",
             joinColumns = @JoinColumn(name="validityPeriodId"),
             inverseJoinColumns= @JoinColumn (name="servicePackageId"))
@@ -40,6 +40,7 @@ public class ValidityPeriodEntity implements Serializable {
 //%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
 
     public ValidityPeriodEntity() {
+
     }
 
     public ValidityPeriodEntity(float monthlyFee, int numberOfMonths) {

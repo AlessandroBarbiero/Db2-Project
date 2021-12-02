@@ -42,7 +42,7 @@ public class ServiceEntity implements Serializable {
 
 //---------------------------------------
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable (name="service_composition",
             joinColumns = @JoinColumn(name="serviceId"),
             inverseJoinColumns= @JoinColumn (name="servicePackageId"))

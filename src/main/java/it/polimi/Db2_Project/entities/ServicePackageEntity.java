@@ -23,20 +23,20 @@ public class ServicePackageEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable (name="service_composition",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="serviceId"))
     private List<ServiceEntity> services;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable (name="possible_validity_period",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="validityPeriodId"))
     private List<ValidityPeriodEntity> possibleValidityPeriods;
 
-    @ManyToMany
-    @JoinTable (name="possible_extensions",
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable (name= "possible_extensions",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="optionalProductName"))
     private List<OptionalProductEntity> possibleOptionalProducts;

@@ -18,13 +18,13 @@ public class OptionalProductEntity implements Serializable {
     @Column(name = "monthlyFee", nullable=false)
     private float monthlyFee;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable (name="possible_extensions",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable (name= "possible_extensions",
             joinColumns = @JoinColumn(name="optionalProductName"),
             inverseJoinColumns= @JoinColumn (name="servicePackageId"))
     private List<ServicePackageEntity> relatedServicePackages;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable (name="optional_product_choice",
             joinColumns = @JoinColumn(name="optionalProductName"),
             inverseJoinColumns= @JoinColumn (name="orderId"))

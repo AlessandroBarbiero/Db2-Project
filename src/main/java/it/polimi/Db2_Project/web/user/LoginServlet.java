@@ -1,4 +1,4 @@
-package it.polimi.Db2_Project.web;
+package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.entities.UserEntity;
 import it.polimi.Db2_Project.services.UserService;
@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("ID", user.get().getId());
 
         }
-        response.sendRedirect("registration");
+        response.sendRedirect("UserPages/home-page.jsp");
     }
 
 }
