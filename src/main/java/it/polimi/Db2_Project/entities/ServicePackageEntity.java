@@ -36,7 +36,7 @@ public class ServicePackageEntity implements Serializable {
     private List<ValidityPeriodEntity> possibleValidityPeriods;
 
     @ManyToMany
-    @JoinTable (name="possible_extentions",
+    @JoinTable (name="possible_extensions",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="optionalProductName"))
     private List<OptionalProductEntity> possibleOptionalProducts;
