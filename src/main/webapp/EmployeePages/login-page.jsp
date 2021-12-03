@@ -2,12 +2,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Telco-Management</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
+<h1><%= "Telco Login Page" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<!-- LOGIN FORM -->
+<form action="login-employee" method="post">
+    <table style="width: 50%">
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name="username" required/></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="password" required/></td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit" />
+</form>
 </body>
 </html>

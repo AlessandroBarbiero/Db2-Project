@@ -7,6 +7,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "optional_product", schema = "db2_database")
+@NamedQueries({
+        @NamedQuery(name = "OptionalProduct.findAll", query = "select o from OptionalProductEntity o"),
+        @NamedQuery(name = "OptionalProduct.findByName", query = "select o from OptionalProductEntity o where o.name = :name")
+})
 public class OptionalProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,4 +80,9 @@ public class OptionalProductEntity implements Serializable {
         this.relatedOrders = relatedOrders;
     }
 
+    @Override
+    public String toString() {
+        return  name + " -> " +
+                "Monthly fee = " + monthlyFee + "€";
+    }
 }

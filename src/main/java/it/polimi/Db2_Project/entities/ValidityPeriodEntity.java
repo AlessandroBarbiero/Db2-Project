@@ -9,6 +9,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "validity_period", schema = "db2_database")
+@NamedQueries({
+        @NamedQuery(name = "ValidityPeriod.findAll", query = "select v from ValidityPeriodEntity v order by v.numberOfMonths")
+})
 public class ValidityPeriodEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -96,4 +99,9 @@ public class ValidityPeriodEntity implements Serializable {
         this.servicePackages = servicePackages;
     }
 
+    @Override
+    public String toString() {
+        return "Monthly fee = " + monthlyFee + "€, " +
+                "Number of months = " + numberOfMonths;
+    }
 }

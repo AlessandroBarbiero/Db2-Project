@@ -8,6 +8,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "service", schema = "db2_database")
+@NamedQueries({
+        @NamedQuery(name = "Service.findAll", query = "select s from ServiceEntity s order by s.type")
+})
 public class ServiceEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,6 +21,7 @@ public class ServiceEntity implements Serializable {
     private int id;
 
     @Column(name = "type", nullable=false)
+    @Enumerated(EnumType.STRING)
     private ServiceType type;
 
 //------------mobile phone---------------
@@ -163,4 +167,25 @@ public class ServiceEntity implements Serializable {
             this.extraGbFee = extraGbFee;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        switch (type){
+            case MOBILE_PHONE:
+                str.append(type).
+                        append(" -> number of Sms: ").append(numberOfSms).
+                        append(" / number of minutes: ").append(numberOfMinutes).
+                        append(" / extra fee for sms: ").append(extraSmsFee).
+                        append("€ / extra fee for minutes: ").append(extraMinutesFee).append("€");
+                return str.toString();
+            case FIXED_INTERNET:
+            case MOBILE_INTERNET:
+                str.append(type).
+                        append(" -> number of Gb: ").append(numberOfGb).
+                        append(" / extra fee for Gb: ").append(extraGbFee).append("€");
+                return str.toString();
+            default:
+                return type.toString();
+        }
+    }
 }
