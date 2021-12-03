@@ -8,8 +8,7 @@
 </head>
 
 <body>
-<h1><%= "Landing Page!" %>
-</h1>
+<h1> <%= "Landing Page!" %> </h1>
 
 <!-- REGISTRATION FORM -->
 <form action="registration" method="post">
@@ -56,7 +55,7 @@
 
 <br/>
 
-<%--    <a href=home-page.jsp">Continue as guest</a>--%>
+    <a href="${pageContext.request.contextPath}/home-user">Continue as guest</a>
 
 </body>
 

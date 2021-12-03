@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/registration")
+@WebServlet(name = "registrationServlet", value = "/registration")
 public class RegistrationServlet extends HttpServlet {
 
     @EJB
@@ -23,27 +23,20 @@ public class RegistrationServlet extends HttpServlet {
     private static final String INVALID_EMAIL = "The email is already used by another user, please choose another one";
     private static final long serialVersionUID = 1L;
 
-    private HttpSession session;
-
     public static String getErrorString() {
         return ERROR_STRING;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String errorString;
-        session = request.getSession();
 
-        errorString = (String) session.getAttribute(ERROR_STRING);
-        if(errorString !=null)
-            System.out.println(errorString);
         request.getRequestDispatcher("/UserPages/landing-page.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        session = request.getSession();
+        HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");

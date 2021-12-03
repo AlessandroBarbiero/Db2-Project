@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet("/login")
+@WebServlet(name = "loginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
 
     @EJB
@@ -58,10 +58,10 @@ public class LoginServlet extends HttpServlet {
             if(!user.isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_CREDENTIALS);
 
-            else
-                // for saving the user id in the session when we change page
-                session.setAttribute("ID", user.get().getId());
-
+            else {
+                // for saving the entire user in the session when we change page
+                session.setAttribute("user", user.get());
+            }
         }
         response.sendRedirect("UserPages/home-page.jsp");
     }

@@ -40,6 +40,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- added on 03/12/21 to utilize jstl tags -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
