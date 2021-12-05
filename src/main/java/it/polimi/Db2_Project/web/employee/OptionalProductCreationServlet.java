@@ -37,7 +37,6 @@ public class OptionalProductCreationServlet extends HttpServlet {
         }
         else {
             monthlyFee = new Float(monthlyFeeString);
-            session.removeAttribute(ERROR_STRING);
             if(employeeService.findOptionalProductByName(name).isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_NAME);
             else

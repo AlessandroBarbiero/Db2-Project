@@ -31,22 +31,22 @@ public class OrderEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn (name = "userId")
     private UserEntity user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn (name = "validityPeriodId")
     private ValidityPeriodEntity validityPeriod;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn (name = "servicePackageId")
     private ServicePackageEntity servicePackage;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable (name="optional_product_choice",
             joinColumns = @JoinColumn(name="orderId"),
-            inverseJoinColumns= @JoinColumn (name="optionalProductName"))
+            inverseJoinColumns= @JoinColumn (name="optionalProductId"))
     private List<OptionalProductEntity> optionalProducts;
 
 

@@ -53,7 +53,6 @@ public class LoginServlet extends HttpServlet {
         }
         else
         {
-            session.removeAttribute(ERROR_STRING);
             Optional<UserEntity> user = userService.checkCredentials(username, password);
             if(!user.isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_CREDENTIALS);

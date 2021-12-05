@@ -1,9 +1,6 @@
 package it.polimi.Db2_Project.services;
 
-import it.polimi.Db2_Project.entities.OptionalProductEntity;
-import it.polimi.Db2_Project.entities.ServiceEntity;
-import it.polimi.Db2_Project.entities.UserEntity;
-import it.polimi.Db2_Project.entities.ValidityPeriodEntity;
+import it.polimi.Db2_Project.entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -36,6 +33,12 @@ public class EmployeeService {
                 .getResultStream().findFirst();
     }
 
+    public Optional<ServicePackageEntity> findServicePackageByName(String name){
+        return em.createNamedQuery("ServicePackage.findByName", ServicePackageEntity.class)
+                .setParameter("name", name)
+                .getResultStream().findFirst();
+    }
+
     public Optional<OptionalProductEntity> createOptionalProduct(String name, float monthlyFee) {
         OptionalProductEntity optionalProduct = new OptionalProductEntity(name, monthlyFee);
 
@@ -43,6 +46,22 @@ public class EmployeeService {
             em.persist(optionalProduct);
             em.flush();
             return Optional.of(optionalProduct);
+        } catch (ConstraintViolationException e) {
+            return Optional.empty();
+        }
+    }
+
+    public  Optional<ServicePackageEntity> createServicePackage(String name, List<ServiceEntity> services,
+                                                                List<ValidityPeriodEntity> possibleValidityPeriods,
+                                                                List<OptionalProductEntity> possibleOptionalProducts) {
+
+        ServicePackageEntity servicePackage = new ServicePackageEntity(name, services, possibleValidityPeriods, possibleOptionalProducts);
+        try {
+            //If your entity is new, it's the same as a persist(). But if your entity already exists, it will update it.
+            //So it persists the new SP and updates the other entities
+            em.merge(servicePackage);
+            em.flush();
+            return Optional.of(servicePackage);
         } catch (ConstraintViolationException e) {
             return Optional.empty();
         }

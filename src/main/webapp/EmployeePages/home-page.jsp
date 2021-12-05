@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="it.polimi.Db2_Project.entities.ServiceEntity" %>
 <%@ page import="it.polimi.Db2_Project.web.employee.OptionalProductCreationServlet" %>
+<%@ page import="it.polimi.Db2_Project.web.employee.ServicePackageCreationServlet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
 </head>
 <body>
 
-<h1> <%= "Home Page" %> </h1>
+<h1> Home Page </h1>
 
 
 <!-- SERVICE PACKAGE CREATION -->
@@ -26,12 +27,19 @@
         <tr>
             <td>Select the SERVICES to include into this Service Package</td>
         </tr>
+        <c:catch var="missingServicesException">
         <jsp:useBean id="services" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ServiceEntity>"/>
+        </c:catch>
+        <!-- if the bean is not found I need to redirect to the servlet that will create it -->
+        <c:if test="${missingServicesException != null}">
+            <jsp:forward page="/home-employee" />
+        </c:if>
+
         <c:forEach var="service" items="${services}" varStatus="row">
             <tr>
                 <td>
-                    <input type="checkbox" id="${service.id}" name="${service.id}">
-                    <label for="${service.id}">${service.toString()}</label>
+                    <input type="checkbox" id="s${service.id}" name="s${service.id}">
+                    <label for="s${service.id}">${service.toString()}</label>
                 </td>
             </tr>
         </c:forEach>
@@ -44,8 +52,8 @@
         <c:forEach var="validityPeriod" items="${validityPeriods}" varStatus="row">
             <tr>
                 <td>
-                    <input type="checkbox" id="${validityPeriod.id}" name="${validityPeriod.id}">
-                    <label for="${validityPeriod.id}">${validityPeriod.toString()}</label>
+                    <input type="checkbox" id="vp${validityPeriod.id}" name="vp${validityPeriod.id}">
+                    <label for="vp${validityPeriod.id}">${validityPeriod.toString()}</label>
                 </td>
             </tr>
         </c:forEach>
@@ -58,13 +66,22 @@
         <c:forEach var="optionalProduct" items="${optionalProducts}" varStatus="row">
             <tr>
                 <td>
-                    <input type="checkbox" id="${optionalProduct.name}" name="${optionalProduct.name}">
-                    <label for="${optionalProduct.name}">${optionalProduct.toString()}</label>
+                    <input type="checkbox" id="op${optionalProduct.name}" name="op${optionalProduct.name}">
+                    <label for="op${optionalProduct.name}">${optionalProduct.toString()}</label>
                 </td>
             </tr>
         </c:forEach>
         <tr><td>---</td></tr>
     </table>
+    <p>
+        <%
+            String errorStringSPC = (String)request.getSession().getAttribute(ServicePackageCreationServlet.getErrorString());
+            if(errorStringSPC!=null) {
+                out.println("<font color = red>" + errorStringSPC + " </font>");
+                request.getSession().removeAttribute(ServicePackageCreationServlet.getErrorString());
+            }
+        %>
+    </p>
     <br/>
     <input type="submit" value="Confirm" />
 </form>
@@ -87,9 +104,11 @@
     </table>
     <p>
         <%
-            String errorString = (String)request.getSession().getAttribute(OptionalProductCreationServlet.getErrorString());
-            if(errorString!=null)
-                out.println("<font color = red>" + errorString + " </font>");
+            String errorStringOP = (String)request.getSession().getAttribute(OptionalProductCreationServlet.getErrorString());
+            if(errorStringOP!=null) {
+                out.println("<font color = red>" + errorStringOP + " </font>");
+                request.getSession().removeAttribute(OptionalProductCreationServlet.getErrorString());
+            }
         %>
     </p>
     <br/>

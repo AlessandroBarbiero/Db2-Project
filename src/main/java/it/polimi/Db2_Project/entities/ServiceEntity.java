@@ -4,6 +4,7 @@ import it.polimi.Db2_Project.exceptions.WrongConfigurationException;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -46,10 +47,7 @@ public class ServiceEntity implements Serializable {
 
 //---------------------------------------
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable (name="service_composition",
-            joinColumns = @JoinColumn(name="serviceId"),
-            inverseJoinColumns= @JoinColumn (name="servicePackageId"))
+    @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ServicePackageEntity> servicePackages;
 
 
@@ -167,6 +165,12 @@ public class ServiceEntity implements Serializable {
             this.extraGbFee = extraGbFee;
     }
 
+    public void addToServicePackage(ServicePackageEntity servicePackage){
+        if(servicePackages == null)
+            servicePackages = new ArrayList<>();
+        servicePackages.add(servicePackage);
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -175,14 +179,14 @@ public class ServiceEntity implements Serializable {
                 str.append(type).
                         append(" -> number of Sms: ").append(numberOfSms).
                         append(" / number of minutes: ").append(numberOfMinutes).
-                        append(" / extra fee for sms: ").append(extraSmsFee).
-                        append("€ / extra fee for minutes: ").append(extraMinutesFee).append("€");
+                        append(" / extra fee for sms: ").append(String.format("%.2f", extraSmsFee)).
+                        append("€ / extra fee for minutes: ").append(String.format("%.2f",extraMinutesFee)).append("€");
                 return str.toString();
             case FIXED_INTERNET:
             case MOBILE_INTERNET:
                 str.append(type).
                         append(" -> number of Gb: ").append(numberOfGb).
-                        append(" / extra fee for Gb: ").append(extraGbFee).append("€");
+                        append(" / extra fee for Gb: ").append(String.format("%.2f",extraGbFee)).append("€");
                 return str.toString();
             default:
                 return type.toString();

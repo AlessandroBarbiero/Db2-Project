@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "validity_period", schema = "db2_database")
 @NamedQueries({
-        @NamedQuery(name = "ValidityPeriod.findAll", query = "select v from ValidityPeriodEntity v order by v.numberOfMonths")
+        @NamedQuery(name = "ValidityPeriod.findAll", query =
+                "select v from ValidityPeriodEntity v " +
+                "order by v.numberOfMonths")
 })
 public class ValidityPeriodEntity implements Serializable {
 
@@ -31,10 +34,7 @@ public class ValidityPeriodEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable (name="possible_validity_period",
-            joinColumns = @JoinColumn(name="validityPeriodId"),
-            inverseJoinColumns= @JoinColumn (name="servicePackageId"))
+    @ManyToMany(mappedBy = "possibleValidityPeriods", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ServicePackageEntity> servicePackages;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="validityPeriod", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -99,9 +99,24 @@ public class ValidityPeriodEntity implements Serializable {
         this.servicePackages = servicePackages;
     }
 
+    public void addToServicePackage(ServicePackageEntity servicePackage){
+        if(servicePackages == null)
+            servicePackages = new ArrayList<>();
+        servicePackages.add(servicePackage);
+    }
+
     @Override
     public String toString() {
-        return "Monthly fee = " + monthlyFee + "€, " +
+        return "Monthly fee = " + String.format("%.2f", monthlyFee) + "€, " +
                 "Number of months = " + numberOfMonths;
+    }
+
+    public static boolean findSameNumberOfMonths(List<ValidityPeriodEntity> list, ValidityPeriodEntity el){
+        int numOfMonths = el.getNumberOfMonths();
+        for(ValidityPeriodEntity val : list){
+            if(val.getNumberOfMonths() == numOfMonths)
+                return true;
+        }
+        return false;
     }
 }

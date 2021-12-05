@@ -3,35 +3,36 @@ package it.polimi.Db2_Project.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "optional_product", schema = "db2_database")
 @NamedQueries({
         @NamedQuery(name = "OptionalProduct.findAll", query = "select o from OptionalProductEntity o"),
-        @NamedQuery(name = "OptionalProduct.findByName", query = "select o from OptionalProductEntity o where o.name = :name")
+        @NamedQuery(name = "OptionalProduct.findByName", query =
+                "select o from OptionalProductEntity o " +
+                        "where o.name = :name")
 })
 public class OptionalProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private int id;
+
     @Column(name = "name", nullable=false)
     private String name;
 
     @Column(name = "monthlyFee", nullable=false)
     private float monthlyFee;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable (name= "possible_extensions",
-            joinColumns = @JoinColumn(name="optionalProductName"),
-            inverseJoinColumns= @JoinColumn (name="servicePackageId"))
+    @ManyToMany(mappedBy = "possibleOptionalProducts", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ServicePackageEntity> relatedServicePackages;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable (name="optional_product_choice",
-            joinColumns = @JoinColumn(name="optionalProductName"),
-            inverseJoinColumns= @JoinColumn (name="orderId"))
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<OrderEntity> relatedOrders;
 
     public OptionalProductEntity() {
@@ -43,6 +44,10 @@ public class OptionalProductEntity implements Serializable {
     }
 
 //%%%%%%%%%%%%%% GETTER %%%%%%%%%%%%%%%%%%%%%%%
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -70,8 +75,7 @@ public class OptionalProductEntity implements Serializable {
         this.monthlyFee = monthlyFee;
     }
 
-    public void setRelatedServicePackages(List<ServicePackageEntity> relatedServicePackages)
-    {
+    public void setRelatedServicePackages(List<ServicePackageEntity> relatedServicePackages) {
         this.relatedServicePackages = relatedServicePackages;
     }
 
@@ -80,9 +84,15 @@ public class OptionalProductEntity implements Serializable {
         this.relatedOrders = relatedOrders;
     }
 
+    public void addToServicePackage(ServicePackageEntity servicePackage){
+        if(relatedServicePackages == null)
+            relatedServicePackages = new ArrayList<>();
+        relatedServicePackages.add(servicePackage);
+    }
+
     @Override
     public String toString() {
         return  name + " -> " +
-                "Monthly fee = " + monthlyFee + "€";
+                "Monthly fee = " + String.format("%.2f", monthlyFee) + "€";
     }
 }

@@ -31,8 +31,10 @@
     <p>
         <%
             String errorString = (String)request.getSession().getAttribute(RegistrationServlet.getErrorString());
-            if(errorString!=null)
+            if(errorString!=null) {
                 out.println("<font color = red>" + errorString + " </font>");
+                request.getSession().removeAttribute(RegistrationServlet.getErrorString());
+            }
         %>
     </p>
 

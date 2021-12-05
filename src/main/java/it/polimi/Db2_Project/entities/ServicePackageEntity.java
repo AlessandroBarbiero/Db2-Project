@@ -7,6 +7,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "service_package", schema = "db2_database")
+@NamedQueries({
+        @NamedQuery(name = "ServicePackage.findByName", query = "select s from ServicePackageEntity s where s.name = :name")
+})
 public class ServicePackageEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,22 +26,22 @@ public class ServicePackageEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable (name="service_composition",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="serviceId"))
     private List<ServiceEntity> services;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable (name="possible_validity_period",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="validityPeriodId"))
     private List<ValidityPeriodEntity> possibleValidityPeriods;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable (name= "possible_extensions",
             joinColumns = @JoinColumn(name="servicePackageId"),
-            inverseJoinColumns= @JoinColumn (name="optionalProductName"))
+            inverseJoinColumns= @JoinColumn (name="optionalProductId"))
     private List<OptionalProductEntity> possibleOptionalProducts;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="servicePackage", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -54,7 +57,16 @@ public class ServicePackageEntity implements Serializable {
         this.name = name;
     }
 
-//%%%%%%%%%%%%%%%%%% GETTERS %%%%%%%%%%%%%%%%%%%%%%%%
+    public ServicePackageEntity(String name, List<ServiceEntity> services,
+                                List<ValidityPeriodEntity> possibleValidityPeriods,
+                                List<OptionalProductEntity> possibleOptionalProducts) {
+        this.name = name;
+        this.services = services;
+        this.possibleValidityPeriods = possibleValidityPeriods;
+        this.possibleOptionalProducts = possibleOptionalProducts;
+    }
+
+    //%%%%%%%%%%%%%%%%%% GETTERS %%%%%%%%%%%%%%%%%%%%%%%%
 
     public int getId() {
     return id;

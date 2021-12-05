@@ -47,7 +47,6 @@ public class RegistrationServlet extends HttpServlet {
         }
         else
         {
-            session.removeAttribute(ERROR_STRING);
             if(userService.findUserByUsername(username).isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_USERNAME);
             else if(userService.findUserByEmail(email).isPresent())
