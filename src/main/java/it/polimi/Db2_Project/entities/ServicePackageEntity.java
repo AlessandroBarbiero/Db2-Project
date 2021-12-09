@@ -8,7 +8,8 @@ import java.util.List;
 @Entity
 @Table(name = "service_package", schema = "db2_database")
 @NamedQueries({
-        @NamedQuery(name = "ServicePackage.findByName", query = "select s from ServicePackageEntity s where s.name = :name")
+        @NamedQuery(name = "ServicePackage.findByName", query = "select s from ServicePackageEntity s where s.name = :name"),
+        @NamedQuery(name = "ServicePackage.findAll", query = "select s from ServicePackageEntity s")
 })
 public class ServicePackageEntity implements Serializable {
 

@@ -39,6 +39,10 @@ public class EmployeeService {
                 .getResultStream().findFirst();
     }
 
+    public List<ServicePackageEntity> findAllServicePackage(){
+        return em.createNamedQuery("ServicePackage.findAll", ServicePackageEntity.class).getResultList();
+    }
+
     public Optional<OptionalProductEntity> createOptionalProduct(String name, float monthlyFee) {
         OptionalProductEntity optionalProduct = new OptionalProductEntity(name, monthlyFee);
 
@@ -65,5 +69,24 @@ public class EmployeeService {
         } catch (ConstraintViolationException e) {
             return Optional.empty();
         }
+    }
+
+    // if username and password are correct it returns the user, else it returns an empty object
+    public Optional<EmployeeEntity> checkCredentials(String username, String password) {
+        Optional<EmployeeEntity> employee = findEmployeeByUsername(username);
+
+        // if username is not specified or the password is incorrect
+        if(!employee.isPresent() || !password.equals(employee.get().getPassword())){
+            return Optional.empty();
+        }
+
+        return employee;
+
+    }
+
+    private Optional<EmployeeEntity> findEmployeeByUsername(String username) {
+        return em.createNamedQuery("Employee.findByUsername", EmployeeEntity.class)
+                .setParameter("username", username)
+                .getResultStream().findFirst();
     }
 }

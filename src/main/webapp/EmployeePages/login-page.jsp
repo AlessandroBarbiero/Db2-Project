@@ -8,8 +8,9 @@
 <h1><%= "Telco Login Page" %>
 </h1>
 <br/>
+
 <!-- LOGIN FORM -->
-<form action="login-employee" method="post">
+<form action="login" method="post">
     <table style="width: 50%">
         <tr>
             <td>Username</td>
@@ -22,5 +23,7 @@
     </table>
     <input type="submit" value="Submit" />
 </form>
+<br/>
+
 </body>
 </html>
