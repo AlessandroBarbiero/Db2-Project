@@ -8,10 +8,15 @@
 <html>
 <head>
     <title>Telco-Management</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<h1> Home Page </h1>
+<h1>Home Page</h1>
 
 
 <!-- SERVICE PACKAGE CREATION -->

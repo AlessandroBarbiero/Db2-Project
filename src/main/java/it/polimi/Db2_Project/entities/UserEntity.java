@@ -45,7 +45,7 @@ public class UserEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orders;
 
 //%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%

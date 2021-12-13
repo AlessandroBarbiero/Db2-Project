@@ -1,11 +1,13 @@
 package it.polimi.Db2_Project.services;
 
+import it.polimi.Db2_Project.entities.OrderEntity;
 import it.polimi.Db2_Project.entities.UserEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -55,6 +57,5 @@ public class UserService {
         }
 
         return user;
-
     }
 }

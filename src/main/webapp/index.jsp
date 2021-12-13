@@ -40,12 +40,6 @@
 
     </style>
 </head>
-<!-- USER -->
-<%--<jsp:forward page="UserPages/landing-page.jsp" />--%>
-
-<!-- EMPLOYEE -->
-<!-- jsp:forward page="EmployeePages/home-page.jsp" /-->
-<!-- jsp:forward page="home-employee" /-->
 
 <body>
 <h1>Telco Company</h1>

@@ -13,8 +13,12 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "ValidityPeriod.findAll", query =
                 "select v from ValidityPeriodEntity v " +
-                "order by v.numberOfMonths")
+                "order by v.numberOfMonths"),
+        @NamedQuery(name = "ValidityPeriod.findByPackage", query =
+                "select v from ValidityPeriodEntity v join v.servicePackages sp " +
+                "where sp.id = :packId")
 })
+
 public class ValidityPeriodEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

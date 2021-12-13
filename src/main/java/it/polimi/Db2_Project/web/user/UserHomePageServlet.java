@@ -1,5 +1,6 @@
 package it.polimi.Db2_Project.web.user;
 
+import it.polimi.Db2_Project.entities.OrderEntity;
 import it.polimi.Db2_Project.entities.ServiceEntity;
 import it.polimi.Db2_Project.entities.ServicePackageEntity;
 import it.polimi.Db2_Project.services.EmployeeService;
@@ -24,6 +25,8 @@ public class UserHomePageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ServicePackageEntity> packages = employeeService.findAllServicePackage();
         request.setAttribute("packages", packages);
+
+
 
         request.getRequestDispatcher("/UserPages/home-page.jsp").forward(request, response);
     }

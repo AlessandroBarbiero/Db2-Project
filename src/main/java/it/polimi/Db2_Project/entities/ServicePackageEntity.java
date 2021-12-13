@@ -27,19 +27,19 @@ public class ServicePackageEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable (name="service_composition",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="serviceId"))
     private List<ServiceEntity> services;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable (name="possible_validity_period",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="validityPeriodId"))
     private List<ValidityPeriodEntity> possibleValidityPeriods;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable (name= "possible_extensions",
             joinColumns = @JoinColumn(name="servicePackageId"),
             inverseJoinColumns= @JoinColumn (name="optionalProductId"))

@@ -23,6 +23,10 @@ public class EmployeeService {
         return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
     }
 
+    public List<ValidityPeriodEntity> findValidityPeriodsOfPackage(Integer chosen){
+        return em.createNamedQuery("ValidityPeriod.findByPackage", ValidityPeriodEntity.class).setParameter("packId", chosen).getResultList();
+    }
+
     public List<OptionalProductEntity> findAllOptionalProducts(){
         return em.createNamedQuery("OptionalProduct.findAll", OptionalProductEntity.class).getResultList();
     }

@@ -7,16 +7,30 @@
 <head>
     <title>Telco-Service</title>
     <style>
+
+        h1{
+            font-family: Georgia, serif;
+            font-size:300%;
+            text-align:center;
+        }
+
+
         * {
             box-sizing: border-box;
         }
 
-        /* Create two equal columns that floats next to each other */
-        .column {
+        .column1 {
             float: left;
-            width: 50%;
+            width: 70%;
             padding: 10px;
+            background-color: white;
+        }
 
+        .column2 {
+            float: left;
+            width: 30%;
+            padding: 10px;
+            background-color: white;
         }
 
         /* Clear floats after the columns */
@@ -24,6 +38,26 @@
             content: "";
             display: table;
             clear: both;
+        }
+
+        body{
+            background: white;
+        }
+        .box {
+            transition: box-shadow .3s;
+            width: 300px;
+            margin: 50px;
+            border-radius:10px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+        .box:hover {
+            box-shadow: 0 0 11px rgba(33,33,33,.4);
+        }
+
+        .container {
+            display: flex; /* or inline-flex */
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -33,7 +67,7 @@
     <jsp:useBean id="user" scope="session" type="it.polimi.Db2_Project.entities.UserEntity"/>
 </c:catch>
 
-<h1> <%= "Home Page" %> </h1>
+<h1>Home Page</h1>
 <c:choose>
     <c:when test="${empty user}">
         <p style="text-align: right"> GUEST </p>
@@ -53,13 +87,57 @@
 
 
 <div class="row">
-    <div class="column" style="background-color: #ffffcc;">
-        <h2>Column 1</h2>
-        <p>Some text..</p>
+    <div class="column1">
+        <h2>Select one service packages from the available ones:</h2>
+        <div class="container">
+        <c:forEach var="pack" items="${packages}" varStatus="row">
+            <a href="buy?chosen=${pack.id}">
+                <div class="box">
+                        <h2 style="text-align: center">${pack.name}</h2>
+                        <h5 style="text-align: center"> It includes</h5>
+                        <ul>
+                            <c:forEach var="service" items="${pack.services}" varStatus="row">
+                                <c:if test="${service.numberOfMinutes > 0}">
+                                    <li>
+                                            <p> ${service.numberOfMinutes} MIN </p>
+                                    </li>
+                                </c:if>
+                                <c:if test="${service.numberOfSms > 0}">
+                                    <li>
+                                            <p> ${service.numberOfSms} SMS </p>
+                                    </li>
+                                </c:if>
+                                <c:if test="${service.numberOfGb > 0}">
+                                    <li>
+                                          <p> ${service.numberOfGb} GB </p>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
+                        </ul>
+                        <h5 style="text-align: center"> Periods</h5>
+                        <ul>
+                            <c:forEach var="periods" items="${pack.possibleValidityPeriods}" varStatus="row">
+                                <li>
+<%--                                    <c:if test="${periods.monthlyFee }">--%>
+<%--                                        --%>
+<%--                                    </c:if>--%>
+                                    <p> ${periods.monthlyFee} € /month PER ${periods.numberOfMonths} months</p>
+                                </li>
+
+                            </c:forEach>
+                        </ul>
+
+
+                </div>
+            <a/>
+        </c:forEach>
+        </div>
     </div>
-    <div class="column" style="background-color: #ffffcc;">
-        <h2>Column 2</h2>
-        <p>Some text..</p>
+    <div class="column2">
+        <h2>List of orders already done</h2>
+<%--        <c:forEach var="user" items="${user}" varStatus="row">--%>
+
+<%--        </c:forEach>--%>
     </div>
 </div>
 
