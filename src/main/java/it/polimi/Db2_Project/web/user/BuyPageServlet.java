@@ -29,13 +29,10 @@ public class BuyPageServlet extends HttpServlet {
         Integer chosen = Integer.parseInt(request.getParameter("chosen"));
         request.setAttribute("chosenPack", chosen);
 
-        List<ValidityPeriodEntity> validityPeriods = employeeService.findAllValidityPeriods();
-        request.setAttribute("validityPeriods", validityPeriods);
-
         List<ValidityPeriodEntity> periods = employeeService.findValidityPeriodsOfPackage(chosen);
         request.setAttribute("periods", periods);
 
-        List<OptionalProductEntity> optionalProducts = employeeService.findAllOptionalProducts();
+        List<OptionalProductEntity> optionalProducts = employeeService.findOptionalProductsOfPackage(chosen);
         request.setAttribute("optionalProducts", optionalProducts);
 
         request.getRequestDispatcher("/UserPages/buy-page.jsp").forward(request, response);

@@ -93,4 +93,9 @@ public class EmployeeService {
                 .setParameter("username", username)
                 .getResultStream().findFirst();
     }
+
+    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen)
+    {
+        return em.createNamedQuery("OptionalProduct.findByPackage", OptionalProductEntity.class).setParameter("packId", chosen).getResultList();
+    }
 }

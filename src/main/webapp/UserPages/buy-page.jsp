@@ -65,10 +65,11 @@
     <jsp:useBean id="validityPeriods" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ValidityPeriodEntity>"/>
 </c:catch>
 
-// TODO: bisogna fare il refresh delle validity periods quando modifico il pacchetto scelto
+<br/>
+<br/>
 <form action="" method="post">
     <label for="packages">Choose a package:</label>
-    <select name="packages" id="packages">
+    <select name="packages" id="packages" onchange="window.location = 'buy?chosen=' + document.getElementById('packages').value">
         <c:forEach var="pack" items="${packages}" varStatus="row">
             <c:if test="${chosenPack==pack.id}" >
                 <option value="${pack.id}" selected> ${pack.name} </option>
@@ -78,14 +79,47 @@
             </c:if>
         </c:forEach>
     </select>
+
     <br/>
     <br/>
+
     <label for="periods">Choose a validity period:</label>
     <select name="periods" id="periods">
         <c:forEach var="period" items="${periods}" varStatus="row">
           <option value="${period.id}"> ${period.monthlyFee} €/month per ${period.numberOfMonths} months </option>
         </c:forEach>
     </select>
+
+    <br/>
+    <br/>
+
+
+    <c:if test="${optionalProducts.size() > 0}" >
+        <label for="optionalProducts"> Select optional products: </label>
+    </c:if>
+    <c:if test="${optionalProducts.size() == 0}" >
+        No optional products available
+    </c:if>
+    <span id="optionalProducts">
+        <c:forEach var="optionalProduct" items="${optionalProducts}" varStatus="row">
+            <input type="checkbox" id="op${optionalProduct.getId()}" name="optionalProducts" value="${optionalProduct.getId()}">
+            <label for="op${optionalProduct.getId()}">${optionalProduct.getName()}</label>
+            <br/>
+        </c:forEach>
+    </span>
+
+    <c:if test="${optionalProducts.size() == 0}" >
+        <br/>
+    </c:if>
+    <br/>
+
+    <label for="startDate"> Select starting date: </label>
+    <input id="startDate" type="date">
+
+    <br/>
+    <br/>
+
+    <input type="submit" value="CONFIRM">
 
 </form>
 
