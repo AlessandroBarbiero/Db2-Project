@@ -5,11 +5,18 @@
 
 <head>
     <title>Telco-Service</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <style>
+        h1 {
+            font-family: "Audiowide", sans-serif;
+            font-size:300%;
+            text-align:center;
+        }
+    </style>
 </head>
 
 <body>
-<h1> <%= "Landing Page!" %> </h1>
+<h1> Landing Page! </h1>
 
 <!-- REGISTRATION FORM -->
 <form action="registration" method="post">
@@ -26,7 +33,7 @@
             <td>Email</td>
             <td><input type="email" name="email"/></td>
         </tr></table>
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Register" />
 </form>
 
     <p>
@@ -53,13 +60,18 @@
             <td><input type="password" name="password" required/></td>
         </tr>
         </table>
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Login" />
 </form>
 
 <br/>
 
-    <a href="${pageContext.request.contextPath}/home-user">Continue as guest</a>
-
+<%
+    if(request.getParameter("notGuest") == null && request.getSession().getAttribute("orderToComplete")==null){
+%>
+        <a href="${pageContext.request.contextPath}/home-user">Continue as guest</a>
+<%
+    }
+%>
 </body>
 
 </html>

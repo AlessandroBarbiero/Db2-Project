@@ -8,7 +8,14 @@
 <html>
 <head>
     <title>Telco-Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
     <style>
+        h1 {
+            font-family: "Audiowide", sans-serif;
+            font-size:300%;
+            text-align:center;
+        }
+
         body{
             text-align: center;
         }

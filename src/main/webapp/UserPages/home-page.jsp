@@ -6,10 +6,10 @@
 <html>
 <head>
     <title>Telco-Service</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
     <style>
-
-        h1{
-            font-family: Georgia, serif;
+        h1 {
+            font-family: "Audiowide", sans-serif;
             font-size:300%;
             text-align:center;
         }
@@ -59,6 +59,20 @@
             display: flex; /* or inline-flex */
             flex-wrap: wrap;
         }
+
+        .userBar {
+            height: 50px;
+            background: lightgray;
+            width:100%;
+        }
+
+        .userText {
+            position: absolute;
+            line-height: 25px;
+            right: 0px;
+            width: 30%;
+            padding-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -68,14 +82,19 @@
 </c:catch>
 
 <h1>Home Page</h1>
-<c:choose>
-    <c:when test="${empty user}">
-        <p style="text-align: right"> GUEST </p>
-    </c:when>
-    <c:otherwise>
-        <p style="text-align: right">Hi, ${user.username}! Nice to see you </p>
-    </c:otherwise>
-</c:choose>
+<div class="userBar">
+    <div class="userText">
+        <c:choose>
+            <c:when test="${empty user}">
+                <p> GUEST </p>
+            </c:when>
+            <c:otherwise>
+                <p> Hi, ${user.username}! Nice to see you </p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
 <br/>
 <c:catch var="missingPackagesException">
     <jsp:useBean id="packages" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ServicePackageEntity>"/>

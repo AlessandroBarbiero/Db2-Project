@@ -4,10 +4,10 @@
 <html>
 <head>
     <title>Telco-Service</title>
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
     <style>
-        h1{
-            font-family: Georgia, serif;
+        h1 {
+            font-family: "Audiowide", sans-serif;
             font-size:300%;
             text-align:center;
         }
@@ -19,12 +19,43 @@
         * {
             box-sizing: border-box;
         }
+
+        .userBar {
+            height: 50px;
+            background: lightgray;
+            width:100%;
+        }
+
+        .userText {
+            position: absolute;
+            line-height: 25px;
+            right: 0px;
+            width: 30%;
+            padding-left: 10px;
+        }
     </style>
 </head>
 <body>
 
 <h1>Buy Page</h1>
 <br/>
+
+<c:catch var="missingUser">
+    <jsp:useBean id="user" scope="session" type="it.polimi.Db2_Project.entities.UserEntity"/>
+</c:catch>
+
+<div class="userBar">
+    <div class="userText">
+        <c:choose>
+            <c:when test="${empty user}">
+                <p> GUEST </p>
+            </c:when>
+            <c:otherwise>
+                <p> Hi, ${user.username}! Nice to see you </p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
 
 <c:catch var="missingPackagesException">
     <jsp:useBean id="packages" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ServicePackageEntity>"/>

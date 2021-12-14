@@ -115,7 +115,6 @@ public class OrderEntity implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
-        //todo: probably there is something to add for database updating
     }
 
     public void setValidityPeriod(ValidityPeriodEntity validityPeriod) {
