@@ -67,7 +67,7 @@
 
 <br/>
 <br/>
-<form action="" method="post">
+<form action="buy" method="post">
     <label for="packages">Choose a package:</label>
     <select name="packages" id="packages" onchange="window.location = 'buy?chosen=' + document.getElementById('packages').value">
         <c:forEach var="pack" items="${packages}" varStatus="row">
@@ -114,13 +114,12 @@
     <br/>
 
     <label for="startDate"> Select starting date: </label>
-    <input id="startDate" type="date">
+    <input id="startDate" name="startDate" type="date">
 
     <br/>
     <br/>
 
     <input type="submit" value="CONFIRM">
-
 </form>
 
 </body>

@@ -11,7 +11,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "buyPageServlet", value = "/buy")
 public class BuyPageServlet extends HttpServlet {
@@ -38,4 +45,32 @@ public class BuyPageServlet extends HttpServlet {
         request.getRequestDispatcher("/UserPages/buy-page.jsp").forward(request, response);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        Integer pack = Integer.parseInt(request.getParameter("packages"));
+        Integer validityPeriod = Integer.parseInt(request.getParameter("periods"));
+        String[] optionalProductsStr = request.getParameterValues("optionalProducts");
+        if(optionalProductsStr == null){
+            optionalProductsStr = new String[]{};
+        }
+        List<Integer> optionalProducts = Arrays.stream(optionalProductsStr).map(Integer::parseInt).collect(Collectors.toList());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date startDate = null;
+        try
+        {
+            startDate = sdf.parse(request.getParameter("startDate"));
+        } catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        OrderEntity order = new OrderEntity(false, startDate, Timestamp.from(Instant.now()));
+        session.setAttribute("order", order);
+        response.sendRedirect("confirmation");
+    }
 }
+
+
