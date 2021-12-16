@@ -10,7 +10,12 @@ import java.util.List;
 @Entity
 @Table(name = "service", schema = "db2_database")
 @NamedQueries({
-        @NamedQuery(name = "Service.findAll", query = "select s from ServiceEntity s order by s.type")
+        @NamedQuery(name = "Service.findAll", query =
+                "select s from ServiceEntity s " +
+                        "order by s.type"),
+        @NamedQuery(name = "Service.findById", query =
+                "select s from ServiceEntity s " +
+                        "where s.id = :id")
 })
 public class ServiceEntity implements Serializable {
 

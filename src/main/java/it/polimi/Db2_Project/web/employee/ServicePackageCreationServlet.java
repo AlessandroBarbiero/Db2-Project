@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(name = "servicePackageCreationServlet", value = "/service-package-creation")
 public class ServicePackageCreationServlet extends HttpServlet {
@@ -40,14 +41,14 @@ public class ServicePackageCreationServlet extends HttpServlet {
         String name = request.getParameter("servicePackageName");
         if(employeeService.findServicePackageByName(name).isPresent()){
             session.setAttribute(ERROR_STRING, NAME_ALREADY_USED);
-            response.sendRedirect("home-employee");
+            response.sendRedirect("home-employee?success=false");
             return;
         }
 
         List<ServiceEntity> chosenServices = findSelectedServices(request);
         if(chosenServices.isEmpty()){
             session.setAttribute(ERROR_STRING, NO_SERVICES);
-            response.sendRedirect("home-employee");
+            response.sendRedirect("home-employee?success=false");
             return;
         }
 
@@ -56,46 +57,54 @@ public class ServicePackageCreationServlet extends HttpServlet {
             chosenValidityPeriods = findSelectedValidityPeriods(request);
         } catch (ValidityPeriodOverloadException e) {
             session.setAttribute(ERROR_STRING, INVALID_CHOICE);
-            response.sendRedirect("home-employee");
+            response.sendRedirect("home-employee?success=false");
             return;
         }
         if(chosenValidityPeriods.isEmpty()){
             session.setAttribute(ERROR_STRING, NO_VALIDITY_PERIODS);
-            response.sendRedirect("home-employee");
+            response.sendRedirect("home-employee?success=false");
             return;
         }
 
         List<OptionalProductEntity> chosenOptionalProducts = findSelectedOptionalProducts(request);
         employeeService.createServicePackage(name, chosenServices, chosenValidityPeriods, chosenOptionalProducts);
 
-        response.sendRedirect("home-employee");
+        response.sendRedirect("home-employee?success=true");
     }
 
     private List<ServiceEntity> findSelectedServices(HttpServletRequest request){
-        boolean selected;
         int serviceId;
         List<ServiceEntity> chosenServices = new ArrayList<>();
-        List<ServiceEntity> services = employeeService.findAllServices();
-        for(ServiceEntity service : services){
-            serviceId = service.getId();
-            selected = request.getParameter("s" + serviceId) != null;
-            if(selected)
-                chosenServices.add(service);
+        String[] selectedServices = request.getParameterValues("selected_services");
+
+        if(selectedServices==null)
+            return chosenServices;
+
+        Optional<ServiceEntity> found;
+        for(String service : selectedServices){
+            serviceId = Integer.parseInt(service);
+            found = employeeService.findServiceById(serviceId);
+            found.ifPresent(chosenServices::add);
         }
 
         return chosenServices;
     }
 
     private List<ValidityPeriodEntity> findSelectedValidityPeriods(HttpServletRequest request) throws ValidityPeriodOverloadException {
-        boolean selected;
         int validityPeriodId;
+        Optional<ValidityPeriodEntity> found;
+        ValidityPeriodEntity validityPeriod;
         List<ValidityPeriodEntity> chosenValidityPeriods = new ArrayList<>();
-        List<ValidityPeriodEntity> validityPeriods = employeeService.findAllValidityPeriods();
+        String[] selectedValidityPeriods = request.getParameterValues("selected_validity_periods");
 
-        for(ValidityPeriodEntity validityPeriod : validityPeriods){
-            validityPeriodId = validityPeriod.getId();
-            selected = request.getParameter("vp" + validityPeriodId) != null;
-            if(selected) {
+        if(selectedValidityPeriods==null)
+            return chosenValidityPeriods;
+
+        for(String validityPeriodString : selectedValidityPeriods){
+            validityPeriodId = Integer.parseInt(validityPeriodString);
+            found = employeeService.findValidityPeriodById(validityPeriodId);
+            if(found.isPresent()) {
+                validityPeriod = found.get();
                 if(ValidityPeriodEntity.findSameNumberOfMonths(chosenValidityPeriods, validityPeriod))
                     throw new ValidityPeriodOverloadException();
                 chosenValidityPeriods.add(validityPeriod);
@@ -106,16 +115,16 @@ public class ServicePackageCreationServlet extends HttpServlet {
     }
 
     private List<OptionalProductEntity> findSelectedOptionalProducts(HttpServletRequest request){
-        boolean selected;
-        String optionalProductName;
+        Optional<OptionalProductEntity> found;
         List<OptionalProductEntity> chosenOptionalProducts = new ArrayList<>();
-        List<OptionalProductEntity> optionalProducts = employeeService.findAllOptionalProducts();
+        String[] selectedOptionalProducts = request.getParameterValues("selected_optional_products");
 
-        for(OptionalProductEntity optionalProduct : optionalProducts){
-            optionalProductName = optionalProduct.getName();
-            selected = request.getParameter("op" + optionalProductName) != null;
-            if(selected)
-                chosenOptionalProducts.add(optionalProduct);
+        if(selectedOptionalProducts==null)
+            return chosenOptionalProducts;
+
+        for(String optionalProductName : selectedOptionalProducts){
+            found = employeeService.findOptionalProductByName(optionalProductName);
+            found.ifPresent(chosenOptionalProducts::add);
         }
 
         return chosenOptionalProducts;

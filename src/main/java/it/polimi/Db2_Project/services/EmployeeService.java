@@ -19,8 +19,20 @@ public class EmployeeService {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
     }
 
+    public Optional<ServiceEntity> findServiceById(int id){
+        return em.createNamedQuery("Service.findById", ServiceEntity.class)
+                .setParameter("id", id)
+                .getResultStream().findFirst();
+    }
+
     public List<ValidityPeriodEntity> findAllValidityPeriods(){
         return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
+    }
+
+    public Optional<ValidityPeriodEntity> findValidityPeriodById(int id){
+        return em.createNamedQuery("ValidityPeriod.findById", ValidityPeriodEntity.class)
+                .setParameter("id", id)
+                .getResultStream().findFirst();
     }
 
     public List<ValidityPeriodEntity> findValidityPeriodsOfPackage(Integer chosen){

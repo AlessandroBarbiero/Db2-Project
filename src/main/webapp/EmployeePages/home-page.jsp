@@ -19,6 +19,11 @@
         body{
             text-align: center;
         }
+
+        .list{
+            padding-left: 30%;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -29,68 +34,71 @@
 <!-- SERVICE PACKAGE CREATION -->
 <form action="service-package-creation" method="post">
     <h2>SERVICE PACKAGE CREATION</h2>
-    <table style="width: 70%">
-        <tr>
-            <td>Insert name
-            <input type="text" name="servicePackageName" required/>
-            </td>
-        </tr>
-        <tr><td>---</td></tr>
-        <tr>
-            <td>Select the SERVICES to include into this Service Package</td>
-        </tr>
-        <c:catch var="missingServicesException">
+
+    <label> Insert name:
+        <input type="text" name="servicePackageName" required/>
+    </label>
+    <br />
+
+    <h3>Select the SERVICES to include into this Service Package</h3>
+
+    <c:catch var="missingServicesException">
         <jsp:useBean id="services" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ServiceEntity>"/>
-        </c:catch>
-        <!-- if the bean is not found I need to redirect to the servlet that will create it -->
-        <c:if test="${missingServicesException != null}">
-            <jsp:forward page="/home-employee" />
-        </c:if>
+    </c:catch>
+    <!-- if the bean is not found I need to redirect to the servlet that will create it -->
+    <c:if test="${missingServicesException != null}">
+        <jsp:forward page="/home-employee" />
+    </c:if>
 
+    <div class="list">
         <c:forEach var="service" items="${services}" varStatus="row">
-            <tr>
-                <td>
-                    <input type="checkbox" id="s${service.id}" name="s${service.id}">
-                    <label for="s${service.id}">${service.toString()}</label>
-                </td>
-            </tr>
+            <input type="checkbox" id="${service.id}" name="selected_services" value="${service.id}">
+            <label for="${service.id}">${service.toString()}</label>
+            <br />
         </c:forEach>
-        <tr><td>---</td></tr>
+    </div>
 
-        <tr>
-            <td>Select the VALIDITY PERIODS from which to select for this Service Package</td>
-        </tr>
-        <jsp:useBean id="validityPeriods" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ValidityPeriodEntity>"/>
+    <br/>
+    <hr />
+
+    <h3>Select the VALIDITY PERIODS from which to select for this Service Package</h3>
+
+    <jsp:useBean id="validityPeriods" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ValidityPeriodEntity>"/>
+
+    <div class="list">
         <c:forEach var="validityPeriod" items="${validityPeriods}" varStatus="row">
-            <tr>
-                <td>
-                    <input type="checkbox" id="vp${validityPeriod.id}" name="vp${validityPeriod.id}">
-                    <label for="vp${validityPeriod.id}">${validityPeriod.toString()}</label>
-                </td>
-            </tr>
+            <input type="checkbox" id="${validityPeriod.id}" name="selected_validity_periods" value="${validityPeriod.id}">
+            <label for="${validityPeriod.id}">${validityPeriod.toString()}</label>
+            <br />
         </c:forEach>
-        <tr><td>---</td></tr>
+    </div>
 
-        <tr>
-            <td>Select the OPTIONAL PRODUCTS from which to select for this Service Package</td>
-        </tr>
-        <jsp:useBean id="optionalProducts" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.OptionalProductEntity>"/>
+    <br/>
+    <hr />
+
+    <h3>Select the OPTIONAL PRODUCTS from which to select for this Service Package</h3>
+
+    <jsp:useBean id="optionalProducts" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.OptionalProductEntity>"/>
+
+    <div class="list">
         <c:forEach var="optionalProduct" items="${optionalProducts}" varStatus="row">
-            <tr>
-                <td>
-                    <input type="checkbox" id="op${optionalProduct.name}" name="op${optionalProduct.name}">
-                    <label for="op${optionalProduct.name}">${optionalProduct.toString()}</label>
-                </td>
-            </tr>
+            <input type="checkbox" id="${optionalProduct.name}" name="selected_optional_products" value="${optionalProduct.name}">
+            <label for="${optionalProduct.name}">${optionalProduct.toString()}</label>
+            <br />
         </c:forEach>
-        <tr><td>---</td></tr>
-    </table>
+    </div>
+
+    <br/>
     <p>
         <%
-            String errorStringSPC = (String)request.getSession().getAttribute(ServicePackageCreationServlet.getErrorString());
-            if(errorStringSPC!=null) {
-                out.println("<font color = red>" + errorStringSPC + " </font>");
-                request.getSession().removeAttribute(ServicePackageCreationServlet.getErrorString());
+            if("true".equals(request.getParameter("success")))
+                out.println("<font color = green>" + "ServicePackage correctly created" + " </font>");
+            else {
+                String errorStringSPC = (String) request.getSession().getAttribute(ServicePackageCreationServlet.getErrorString());
+                if (errorStringSPC != null) {
+                    out.println("<font color = red>" + errorStringSPC + " </font>");
+                    request.getSession().removeAttribute(ServicePackageCreationServlet.getErrorString());
+                }
             }
         %>
     </p>
@@ -100,20 +108,24 @@
 
 <br/>
 <hr/>
+<hr/>
 <br/>
+
 <!-- OPTIONAL PRODUCT CREATION -->
 <form action="optional-product-creation" method="post">
     <h2>OPTIONAL PRODUCT CREATION</h2>
-    <table style="width: 50%">
-        <tr>
-            <td>Name</td>
-            <td><input type="text" name="name" required/></td>
-        </tr>
-        <tr>
-            <td>Monthly fee</td>
-            <td><input type="number" step="0.01" name="monthlyFee" required/></td>
-        </tr>
-    </table>
+    <div class="list">
+        <table style="width: 50%">
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="name" required/></td>
+            </tr>
+            <tr>
+                <td>Monthly fee</td>
+                <td><input type="number" step="0.01" name="monthlyFee" required/></td>
+            </tr>
+        </table>
+    </div>
     <p>
         <%
             String errorStringOP = (String)request.getSession().getAttribute(OptionalProductCreationServlet.getErrorString());
@@ -126,6 +138,7 @@
     <br/>
     <input type="submit" value="Confirm" />
 </form>
+
 <br/>
 </body>
 </html>
