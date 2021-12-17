@@ -1,3 +1,4 @@
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -114,7 +115,7 @@
     <br/>
 
     <label for="startDate"> Select starting date: </label>
-    <input id="startDate" name="startDate" type="date">
+    <input id="startDate" name="startDate" type="date" min="<%=LocalDate.now()%>">
 
     <br/>
     <br/>

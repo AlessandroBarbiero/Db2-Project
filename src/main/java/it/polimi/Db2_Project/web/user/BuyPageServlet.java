@@ -2,6 +2,7 @@ package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.entities.*;
 import it.polimi.Db2_Project.services.EmployeeService;
+import it.polimi.Db2_Project.services.UserService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -24,25 +26,30 @@ import java.util.stream.Collectors;
 public class BuyPageServlet extends HttpServlet {
 
     @EJB
-    private EmployeeService employeeService;
-    private HttpSession session;
+    private UserService userService;
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ServicePackageEntity> packages = employeeService.findAllServicePackage();
+        System.out.println("ciao ora compro");
+        List<ServicePackageEntity> packages = userService.findAllServicePackage();
         request.setAttribute("packages", packages);
 
 
         Integer chosen = Integer.parseInt(request.getParameter("chosen"));
         request.setAttribute("chosenPack", chosen);
 
-        List<ValidityPeriodEntity> periods = employeeService.findValidityPeriodsOfPackage(chosen);
+        List<ValidityPeriodEntity> periods = userService.findValidityPeriodsOfPackage(chosen);
         request.setAttribute("periods", periods);
 
-        List<OptionalProductEntity> optionalProducts = employeeService.findOptionalProductsOfPackage(chosen);
+        List<OptionalProductEntity> optionalProducts = userService.findOptionalProductsOfPackage(chosen);
         request.setAttribute("optionalProducts", optionalProducts);
 
+        System.out.println("ciao ora dispatcho");
+
         request.getRequestDispatcher("/UserPages/buy-page.jsp").forward(request, response);
+
+        System.out.println("ciao ora vado via, alla prossima");
     }
 
     @Override
@@ -68,8 +75,29 @@ public class BuyPageServlet extends HttpServlet {
         }
 
         OrderEntity order = new OrderEntity(false, startDate, Timestamp.from(Instant.now()));
+        // prendo l'utente dalla session e lo collego all'ordine
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        order.setUser(user);
+        // collego il validty period e il package all'ordine
+        order.setValidityPeriod(userService.findValidityPeriodById(validityPeriod).get());
+        order.setServicePackage(userService.findServicePackageById(pack).get());
+        // prendo la lista delle entity degli opt products e li collego all'ordine
+        List <OptionalProductEntity> opList = new ArrayList<>();
+        for (int op: optionalProducts){
+            opList.add(userService.findOptionalProductById(op).get());
+        }
+        order.setOptionalProducts(opList);
+
+        // salvo order nella session
         session.setAttribute("order", order);
-        response.sendRedirect("confirmation");
+
+        //utente non loggato
+        if (user == null){
+            response.sendRedirect("login");
+        }
+        else {
+            response.sendRedirect("confirmation");
+        }
     }
 }
 

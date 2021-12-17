@@ -51,7 +51,7 @@ public class EmployeeLoginServlet extends HttpServlet {
                 session.setAttribute("employee", employee.get());
             }
         }
-        response.sendRedirect("EmployeePages/home-page.jsp");
+        response.sendRedirect("home-employee");
     }
 
 }

@@ -1,7 +1,6 @@
 package it.polimi.Db2_Project.services;
 
-import it.polimi.Db2_Project.entities.OrderEntity;
-import it.polimi.Db2_Project.entities.UserEntity;
+import it.polimi.Db2_Project.entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -22,6 +21,23 @@ public class UserService {
         return Optional.ofNullable(user);
     }
 
+    public Optional<ValidityPeriodEntity> findValidityPeriodById(int id){
+        return em.createNamedQuery("ValidityPeriod.findById", ValidityPeriodEntity.class)
+                .setParameter("id", id)
+                .getResultStream().findFirst();
+    }
+
+    public Optional<ServicePackageEntity> findServicePackageById(int id){
+        return em.createNamedQuery("ServicePackage.findById", ServicePackageEntity.class)
+                .setParameter("id", id)
+                .getResultStream().findFirst();
+    }
+
+    public Optional<OptionalProductEntity> findOptionalProductById(int id){
+        return em.createNamedQuery("OptionalProduct.findById", OptionalProductEntity.class)
+                .setParameter("id", id)
+                .getResultStream().findFirst();
+    }
 
     public Optional<UserEntity> createUser(String username, String password, String email) {
         UserEntity user = new UserEntity(username, email, password);
@@ -57,5 +73,18 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public List<ServicePackageEntity> findAllServicePackage(){
+        return em.createNamedQuery("ServicePackage.findAll", ServicePackageEntity.class).getResultList();
+    }
+
+    public List<ValidityPeriodEntity> findValidityPeriodsOfPackage(Integer chosen){
+        return em.createNamedQuery("ValidityPeriod.findByPackage", ValidityPeriodEntity.class).setParameter("packId", chosen).getResultList();
+    }
+
+    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen)
+    {
+        return em.createNamedQuery("OptionalProduct.findByPackage", OptionalProductEntity.class).setParameter("packId", chosen).getResultList();
     }
 }

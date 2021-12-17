@@ -51,10 +51,10 @@ public class LoginServlet extends HttpServlet {
             else {
                 // for saving the entire user in the session when we change page
                 session.setAttribute("user", user.get());
-                if(session.getAttribute("orderToComplete") == null)
-                    response.sendRedirect("UserPages/home-page.jsp");
+                if(session.getAttribute("order") == null)
+                    response.sendRedirect("home-user");
                 else
-                    response.sendRedirect("UserPages/confirmation-page.jsp");
+                    response.sendRedirect("confirmation");
                 return;
             }
         }

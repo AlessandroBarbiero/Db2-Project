@@ -15,7 +15,10 @@ import java.util.List;
                         "where o.name = :name"),
         @NamedQuery(name = "OptionalProduct.findByPackage", query =
                 "select op from ServicePackageEntity sp join sp.possibleOptionalProducts op " +
-                        "where sp.id = :packId")
+                        "where sp.id = :packId"),
+        @NamedQuery(name = "OptionalProduct.findById", query =
+                "select o from OptionalProductEntity o " +
+                        "where o.id = :id")
 })
 public class OptionalProductEntity implements Serializable {
 
