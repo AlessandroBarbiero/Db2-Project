@@ -38,27 +38,25 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if(username.isEmpty() || password.isEmpty())
-        {
+        if(username.isEmpty() || password.isEmpty()) {
             session.setAttribute(ERROR_STRING, EMPTY_FIELD_ERROR);
         }
-        else
-        {
+        else {
             Optional<UserEntity> user = userService.checkCredentials(username, password);
             if(!user.isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_CREDENTIALS);
 
             else {
-                // for saving the entire user in the session when we change page
+                // saves the user in the session when the page is changed
                 session.setAttribute("user", user.get());
-                if(session.getAttribute("order") == null)
+                if(session.getAttribute("pendingOrder") == null)
                     response.sendRedirect("home-user");
                 else
                     response.sendRedirect("confirmation");
                 return;
             }
         }
-        response.sendRedirect("login");
+        response.sendRedirect("login?success=false");
     }
 
 }

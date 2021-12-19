@@ -66,7 +66,7 @@
 <br/>
 
 <%
-    if(request.getParameter("notGuest") == null && request.getSession().getAttribute("orderToComplete")==null){
+    if(request.getParameter("notGuest") == null && request.getSession().getAttribute("pendingOrder")==null){
 %>
         <a href="${pageContext.request.contextPath}/home-user">Continue as guest</a>
 <%

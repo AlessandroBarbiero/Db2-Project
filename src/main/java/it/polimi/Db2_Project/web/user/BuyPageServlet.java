@@ -31,10 +31,9 @@ public class BuyPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ciao ora compro");
+
         List<ServicePackageEntity> packages = userService.findAllServicePackage();
         request.setAttribute("packages", packages);
-
 
         Integer chosen = Integer.parseInt(request.getParameter("chosen"));
         request.setAttribute("chosenPack", chosen);
@@ -45,11 +44,7 @@ public class BuyPageServlet extends HttpServlet {
         List<OptionalProductEntity> optionalProducts = userService.findOptionalProductsOfPackage(chosen);
         request.setAttribute("optionalProducts", optionalProducts);
 
-        System.out.println("ciao ora dispatcho");
-
         request.getRequestDispatcher("/UserPages/buy-page.jsp").forward(request, response);
-
-        System.out.println("ciao ora vado via, alla prossima");
     }
 
     @Override
@@ -75,9 +70,6 @@ public class BuyPageServlet extends HttpServlet {
         }
 
         OrderEntity order = new OrderEntity(false, startDate, Timestamp.from(Instant.now()));
-        // prendo l'utente dalla session e lo collego all'ordine
-        UserEntity user = (UserEntity) session.getAttribute("user");
-        order.setUser(user);
         // collego il validty period e il package all'ordine
         order.setValidityPeriod(userService.findValidityPeriodById(validityPeriod).get());
         order.setServicePackage(userService.findServicePackageById(pack).get());
@@ -89,15 +81,10 @@ public class BuyPageServlet extends HttpServlet {
         order.setOptionalProducts(opList);
 
         // salvo order nella session
-        session.setAttribute("order", order);
+        session.setAttribute("pendingOrder", order);
 
-        //utente non loggato
-        if (user == null){
-            response.sendRedirect("login");
-        }
-        else {
-            response.sendRedirect("confirmation");
-        }
+
+        response.sendRedirect("confirmation");
     }
 }
 

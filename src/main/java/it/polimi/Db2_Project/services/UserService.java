@@ -83,8 +83,17 @@ public class UserService {
         return em.createNamedQuery("ValidityPeriod.findByPackage", ValidityPeriodEntity.class).setParameter("packId", chosen).getResultList();
     }
 
-    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen)
-    {
+    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen) {
         return em.createNamedQuery("OptionalProduct.findByPackage", OptionalProductEntity.class).setParameter("packId", chosen).getResultList();
+    }
+
+    public Optional<OrderEntity> createOrder(OrderEntity order){
+        try {
+            em.merge(order);
+            em.flush();
+            return Optional.of(order);
+        } catch (ConstraintViolationException e) {
+            return Optional.empty();
+        }
     }
 }

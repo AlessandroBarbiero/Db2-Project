@@ -35,10 +35,10 @@ public class OptionalProductEntity implements Serializable {
     @Column(name = "monthlyFee", nullable=false)
     private float monthlyFee;
 
-    @ManyToMany(mappedBy = "possibleOptionalProducts", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "possibleOptionalProducts", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<ServicePackageEntity> relatedServicePackages;
 
-    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<OrderEntity> relatedOrders;
 
     public OptionalProductEntity() {

@@ -34,25 +34,23 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
 
-        if(username.isEmpty() || password.isEmpty() || email.isEmpty())
-        {
+        if(username.isEmpty() || password.isEmpty() || email.isEmpty()) {
             session.setAttribute(ERROR_STRING, EMPTY_FIELD_ERROR);
         }
-        else
-        {
+        else {
             if(userService.findUserByUsername(username).isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_USERNAME);
             else if(userService.findUserByEmail(email).isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_EMAIL);
             else
-                userService.createUser(username,password,email);
+                userService.createUser(username, password, email);
 
         }
         response.sendRedirect("registration");
