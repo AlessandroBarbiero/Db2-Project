@@ -30,6 +30,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
             " please select a different one";
     private static final String NO_SERVICES = "Please select at least one service";
     private static final String NO_VALIDITY_PERIODS = "Please select at least one validity period";
+    private static final String MISSING_NAME = "Please insert a name for the package";
 
     public static String getErrorString(){
         return ERROR_STRING;
@@ -39,6 +40,13 @@ public class ServicePackageCreationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String name = request.getParameter("servicePackageName");
+
+        if(name == null){
+            session.setAttribute(ERROR_STRING, MISSING_NAME);
+            response.sendRedirect("home-employee?success=false");
+            return;
+        }
+
         if(employeeService.findServicePackageByName(name).isPresent()){
             session.setAttribute(ERROR_STRING, NAME_ALREADY_USED);
             response.sendRedirect("home-employee?success=false");

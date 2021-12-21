@@ -125,13 +125,13 @@
 
                     <c:when test="${service.type.equals(ServiceType.MOBILE_INTERNET)}">
                         <li>
-                            <p> ${service.numberOfGb} GB (mobile) with extra fee for GB: ${service.extraGbFee} </p>
+                            <p> ${service.numberOfGb} GB (mobile) with extra fee for GB: ${service.extraGbFee}€ </p>
                         </li>
                     </c:when>
 
                     <c:when test="${service.type.equals(ServiceType.FIXED_INTERNET)}">
                         <li>
-                            <p> ${service.numberOfGb} GB (fixed) with extra fee for GB: ${service.extraGbFee} </p>
+                            <p> ${service.numberOfGb} GB (fixed) with extra fee for GB: ${service.extraGbFee}€ </p>
                         </li>
                     </c:when>
                 </c:choose>

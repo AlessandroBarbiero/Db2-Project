@@ -29,6 +29,9 @@ public class OrderEntity implements Serializable {
     @Column(name = "creation", nullable=false)
     private Timestamp creation;
 
+    @Column(name = "totalPrice", nullable=false)
+    private float totalPrice;
+
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
@@ -79,6 +82,10 @@ public class OrderEntity implements Serializable {
         return creation;
     }
 
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
     public UserEntity getUser() {
         return user;
     }
@@ -111,6 +118,10 @@ public class OrderEntity implements Serializable {
 
     public void setCreation(Timestamp creation) {
         this.creation = creation;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public void setUser(UserEntity user) {

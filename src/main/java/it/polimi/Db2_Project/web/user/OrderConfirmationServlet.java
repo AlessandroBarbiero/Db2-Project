@@ -37,10 +37,19 @@ public class OrderConfirmationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         OrderEntity order = (OrderEntity) session.getAttribute("pendingOrder");
+
+        float totalCost;
+        totalCost = order.getValidityPeriod().getMonthlyFee();
+        for(OptionalProductEntity op : order.getOptionalProducts())
+            totalCost+=op.getMonthlyFee();
+
         order.setValid(isValidPayment(req));
         order.setCreation(Timestamp.from(Instant.now()));
         UserEntity user = (UserEntity) session.getAttribute("user");
         order.setUser(user);
+
+
+        order.setTotalPrice(totalCost);
 
         userService.createOrder(order);
 

@@ -39,6 +39,7 @@ CREATE TABLE `order` (
                          `valid` bool NOT NULL,
                          `startDate` DATE NOT NULL,
                          `creation` TIMESTAMP NOT NULL,
+                         `totalPrice` float NOT NULL,
                          `servicePackageId` int NOT NULL,
                          `userId` int NOT NULL,
                          `validityPeriodId` int NOT NULL,
@@ -106,13 +107,5 @@ ALTER TABLE `possible_extensions` ADD CONSTRAINT `possible_extensions_fk1` FOREI
 
 ALTER TABLE `service_composition` ADD CONSTRAINT `service_composition_fk0` FOREIGN KEY (`serviceId`) REFERENCES `service`(`id`);
 ALTER TABLE `service_composition` ADD CONSTRAINT `service_composition_fk1` FOREIGN KEY (`servicePackageId`) REFERENCES `service_package`(`id`);
-
-
-
-
-
-
-
-
 
 
