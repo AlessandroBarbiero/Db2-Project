@@ -52,8 +52,8 @@
 
     <div class="list">
         <c:forEach var="service" items="${services}" varStatus="row">
-            <input type="checkbox" id="${service.id}" name="selected_services" value="${service.id}">
-            <label for="${service.id}">${service.toString()}</label>
+            <input type="checkbox" id="s${service.id}" name="selected_services" value="${service.id}">
+            <label for="s${service.id}">${service.toString()}</label>
             <br />
         </c:forEach>
     </div>
@@ -67,8 +67,8 @@
 
     <div class="list">
         <c:forEach var="validityPeriod" items="${validityPeriods}" varStatus="row">
-            <input type="checkbox" id="${validityPeriod.id}" name="selected_validity_periods" value="${validityPeriod.id}">
-            <label for="${validityPeriod.id}">${validityPeriod.toString()}</label>
+            <input type="checkbox" id="vp${validityPeriod.id}" name="selected_validity_periods" value="${validityPeriod.id}">
+            <label for="vp${validityPeriod.id}">${validityPeriod.toString()}</label>
             <br />
         </c:forEach>
     </div>
@@ -82,8 +82,8 @@
 
     <div class="list">
         <c:forEach var="optionalProduct" items="${optionalProducts}" varStatus="row">
-            <input type="checkbox" id="${optionalProduct.name}" name="selected_optional_products" value="${optionalProduct.name}">
-            <label for="${optionalProduct.name}">${optionalProduct.toString()}</label>
+            <input type="checkbox" id="op${optionalProduct.name}" name="selected_optional_products" value="${optionalProduct.name}">
+            <label for="op${optionalProduct.name}">${optionalProduct.toString()}</label>
             <br />
         </c:forEach>
     </div>
