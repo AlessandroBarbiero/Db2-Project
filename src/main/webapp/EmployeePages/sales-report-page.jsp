@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,17 @@
 </head>
 <body>
 <h1> Sales Report </h1>
+
+<c:catch var="missingPackagesException">
+    <jsp:useBean id="packages" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ServicePackageEntity>"/>
+</c:catch>
+
+<c:if test="${missingPackagesException != null}">
+    <jsp:forward page="/sales-report" />
+</c:if>
+
+
+
 <br/>
 </body>
 </html>

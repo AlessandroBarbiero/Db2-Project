@@ -153,14 +153,8 @@
             <br/>
         </c:if>
 
-        <%
-            float totalCost;
-            totalCost = pendingOrder.getValidityPeriod().getMonthlyFee();
-            for(OptionalProductEntity op : pendingOrder.getOptionalProducts())
-                totalCost+=op.getMonthlyFee();
-        %>
 
-        <p>Total price = <b><%=totalCost%>€ /month</b></p>
+        <p>Total price to be pre-paid = <b><%=String.format("%.02f", (float)request.getAttribute("totalCost")).replace(",", ".")%>€</b></p>
     </div>
 </div>
 
@@ -173,6 +167,7 @@
         </c:when>
         <c:otherwise>
             <form action="confirmation" method="post">
+                <input type="hidden" name="totalCost" value=${requestScope.totalCost} />
                 <button type="submit" class="button" name="buy" value="true"> Buy </button>
                 <button type="submit" class="button" name="buy" value="false"> Fake Buy </button>
             </form>

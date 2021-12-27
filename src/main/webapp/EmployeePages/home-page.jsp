@@ -24,12 +24,50 @@
             padding-left: 30%;
             text-align: left;
         }
+
+        .bar {
+            height: 50px;
+            background: lightgray;
+            width:100%;
+        }
+
+        .barText {
+            position: absolute;
+            line-height: 10px;
+            right: 0;
+            width: 30%;
+            padding-left: 10px;
+        }
+
+        .button {
+            background-color: white; /* Green */
+            border: 2px solid #e7e7e7;
+            color: black;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            min-width: 5%;
+        }
+
+        .button:hover {background-color: #e7e7e7;}
     </style>
 </head>
 <body>
 
 <h1>Home Page</h1>
 
+<div class="bar">
+    <div class="barText">
+        <a href="sales-report">
+            <button class="button">Sales Report &#10146;</button>
+        </a>
+    </div>
+</div>
 
 <!-- SERVICE PACKAGE CREATION -->
 <form action="service-package-creation" method="post">

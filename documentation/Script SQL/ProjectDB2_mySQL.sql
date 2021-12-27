@@ -7,16 +7,16 @@ CREATE TABLE `service_package` (
 
 CREATE TABLE `user` (
                         `id` int NOT NULL AUTO_INCREMENT,
-                        `password` varchar(255) NOT NULL,
                         `username` varchar(255) NOT NULL UNIQUE,
+                        `password` varchar(255) NOT NULL,
                         `email` varchar(255) NOT NULL UNIQUE,
                         PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `employee` (
                             `id` int NOT NULL AUTO_INCREMENT,
-                            `password` varchar(255) NOT NULL,
                             `username` varchar(255) NOT NULL UNIQUE,
+                            `password` varchar(255) NOT NULL,
                             PRIMARY KEY (`id`)
 );
 
