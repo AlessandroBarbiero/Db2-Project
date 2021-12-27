@@ -83,7 +83,6 @@ public class BuyPageServlet extends HttpServlet {
         // salvo order nella session
         session.setAttribute("pendingOrder", order);
 
-
         response.sendRedirect("confirmation");
     }
 }

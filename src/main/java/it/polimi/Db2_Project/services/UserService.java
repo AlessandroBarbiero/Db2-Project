@@ -96,4 +96,14 @@ public class UserService {
             return Optional.empty();
         }
     }
+
+    public List<OrderEntity> findRejectedOrders(int userId) {
+        return em.createNamedQuery("Order.findRejected", OrderEntity.class).setParameter("userId", userId).getResultList();
+    }
+
+    public Optional <OrderEntity> findOrderById(int orderId){
+        return em.createNamedQuery("Order.findById", OrderEntity.class)
+                .setParameter("orderId", orderId)
+                .getResultStream().findFirst();
+    }
 }

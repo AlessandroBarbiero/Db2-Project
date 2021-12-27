@@ -17,10 +17,12 @@ FOR EACH ROW
 CREATE TRIGGER opt_prod_insert
 AFTER INSERT ON optional_product_choice
 FOR EACH ROW
+    IF (SELECT o.valid FROM `order` o WHERE o.id = new.orderId) THEN
 	UPDATE average_number_opt_products_per_package
 		SET optProductsSold = optProductsSold + 1,
 			`avg` = (optProductsSold / totOrders)
         WHERE servicePackageId = (SELECT servicePackageId FROM `order` O WHERE O.id = new.orderId);
+	END IF;
        
 # cancellazione di un opt product
 CREATE TRIGGER opt_prod_delete
@@ -35,10 +37,12 @@ FOR EACH ROW
 CREATE TRIGGER avg_opt_prod_insert
 AFTER INSERT ON `order`
 FOR EACH ROW
+    IF new.valid THEN
 	UPDATE average_number_opt_products_per_package 
 		SET totOrders = totOrders + 1,
 			`avg` = (optProductsSold / totOrders)
         WHERE servicePackageId = new.servicePackageId;
+	END IF;
 
 # cancellazione di un ordine 
 CREATE TRIGGER avg_opt_prod_delete

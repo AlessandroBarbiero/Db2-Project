@@ -16,6 +16,7 @@ FOR EACH ROW
 CREATE TRIGGER revenue_opt_prod_insert
 AFTER INSERT ON optional_product_choice
 FOR EACH ROW
+    IF (SELECT o.valid FROM `order` o WHERE o.id = new.orderId) THEN
 	UPDATE best_seller_opt_prod
 		SET revenue = revenue + (SELECT op.monthlyFee * numberOfMonths
 															FROM `order` o JOIN validity_period v ON  o.validityPeriodId = v.id 
@@ -23,6 +24,7 @@ FOR EACH ROW
 																	JOIN optional_product op ON opc.optionalProductId = op.id
                                                             WHERE o.id = new.orderId AND op.id = new.optionalProductId)
         WHERE optionalProductId = new.optionalProductId;
+	END IF;
 
 # cancellazioni
 CREATE TRIGGER revenue_opt_prod_delete

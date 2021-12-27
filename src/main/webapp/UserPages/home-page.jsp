@@ -73,6 +73,22 @@
             width: 30%;
             padding-left: 10px;
         }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
     </style>
 </head>
 <body>
@@ -103,6 +119,10 @@
 <c:if test="${missingPackagesException != null}">
     <jsp:forward page="/home-user" />
 </c:if>
+
+<c:catch var="missingRejectedOrdersException">
+    <jsp:useBean id="rejectedOrders" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.OrderEntity>"/>
+</c:catch>
 
 
 <div class="row">
@@ -153,10 +173,28 @@
         </div>
     </div>
     <div class="column2">
-        <h2>List of orders already done</h2>
-<%--        <c:forEach var="user" items="${user}" varStatus="row">--%>
+        <h2>List of rejected orders</h2>
+        <c:if test="${user != null}">
+            <table>
+                <tr>
+                    <th>Package included</th>
+                    <th>Data</th>
+                    <th>Total cost</th>
+                </tr>
+                <c:forEach var="rejected" items="${rejectedOrders}" varStatus="row">
+                    <tr>
+                        <td> <a href="retrieve-order?orderId=${rejected.id}"> ${rejected.servicePackage.name} </a></td>
+                        <td>${rejected.creation}</td>
+                        <td>${rejected.totalPrice}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
 
-<%--        </c:forEach>--%>
+
+
+
+
     </div>
 </div>
 

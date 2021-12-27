@@ -3,6 +3,7 @@ package it.polimi.Db2_Project.web;
 import java.io.*;
 import java.sql.DriverManager;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -14,7 +15,8 @@ public class HelloServlet extends HttpServlet {
         message = "Hello World!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+    {
         final String DB_URL = "jdbc:mysql://localhost:3306/db2_database"; //Replace with your own configuration
         final String USER = "root"; //Replace with your own configuration
         final String PASS = "myperson30"; //Replace with your own configuration

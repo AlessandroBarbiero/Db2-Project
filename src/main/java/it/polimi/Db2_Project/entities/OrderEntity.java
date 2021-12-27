@@ -9,6 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "order", schema = "db2_database")
+@NamedQueries({
+        @NamedQuery(name = "Order.findRejected", query = "select o from OrderEntity o where o.valid = false and o.user.id = :userId"),
+        @NamedQuery(name =  "Order.findById", query = "select o from OrderEntity o where o.id = :orderId")
+})
 public class OrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,7 +50,7 @@ public class OrderEntity implements Serializable {
     @JoinColumn (name = "servicePackageId")
     private ServicePackageEntity servicePackage;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable (name="optional_product_choice",
             joinColumns = @JoinColumn(name="orderId"),
             inverseJoinColumns= @JoinColumn (name="optionalProductId"))
