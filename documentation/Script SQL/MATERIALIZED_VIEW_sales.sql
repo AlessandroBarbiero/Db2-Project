@@ -35,6 +35,29 @@ FOR EACH ROW
                                                             WHERE o.id = new.orderId AND op.id = new.optionalProductId)
         WHERE servicePackageId = (SELECT o.servicePackageId FROM `order` o WHERE o.id = new.orderId);
 
+# cancellazioni
+CREATE TRIGGER all_delete
+    AFTER DELETE ON `order`
+    FOR EACH ROW
+    UPDATE sales_per_package
+    SET revenueWithoutOpProd = revenueWithoutOpProd - (SELECT monthlyFee * numberOfMonths
+                                                       FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
+                                                       WHERE o.id = old.id),
+        revenueWithOpProd = revenueWithOpProd - (SELECT monthlyFee * numberOfMonths
+                                                 FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
+                                                 WHERE o.id = old.id)
+    WHERE servicePackageId = old.servicePackageId;
+
+CREATE TRIGGER update_revenue_after_opt_prod_choice_delete
+    AFTER DELETE ON optional_product_choice
+    FOR EACH ROW
+    UPDATE sales_per_package
+    SET revenueWithOpProd = revenueWithOpProd - (SELECT op.monthlyFee * numberOfMonths
+                                                 FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
+                                                                JOIN optional_product_choice opc ON o.id = opc.orderId JOIN optional_product op ON opc.optionalProductId = op.id
+                                                 WHERE o.id = old.orderId AND op.id = old.optionalProductId)
+    WHERE servicePackageId = (SELECT o.servicePackageId FROM `order` o WHERE o.id = old.orderId);
+
 # query finale
 # SELECT servicePackageId, revenueWithOpProd, revenueWithoutOpProd
 # FROM sales_per_package
