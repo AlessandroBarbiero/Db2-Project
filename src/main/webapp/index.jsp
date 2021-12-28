@@ -51,7 +51,7 @@
     </a>
     <br>
     <br>
-    <a href="home-user">
+    <a href="login">
         <button class="button">User</button>
     </a>
 

@@ -97,6 +97,7 @@
 
     <c:if test="${optionalProducts.size() > 0}" >
         <label for="optionalProducts"> Select optional products: </label>
+        <br/>
     </c:if>
     <c:if test="${optionalProducts.size() == 0}" >
         No optional products available

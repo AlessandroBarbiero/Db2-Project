@@ -11,7 +11,6 @@ CREATE TABLE suspended_orders (
 
 DELIMITER $$
 
-
 CREATE TRIGGER add_suspended_order
     AFTER INSERT ON `order`
     FOR EACH ROW
@@ -19,12 +18,11 @@ begin
     IF  new.valid = false
     THEN
         INSERT INTO suspended_orders
-            (SELECT *
-             FROM new);
+            value (new.id, new.valid, NEW.startDate, new.creation, new.totalPrice, new.servicePackageId, new.userId, new.validityPeriodId);
 
     END IF;
-end; $$
-
+end;
+$$
 
 CREATE TRIGGER remove_suspended_order
     AFTER UPDATE ON `order`
@@ -36,6 +34,7 @@ begin
         DELETE FROM suspended_orders
         WHERE suspended_orders.id = new.id;
     END IF;
-END $$
+END
+$$
 
 DELIMITER ;

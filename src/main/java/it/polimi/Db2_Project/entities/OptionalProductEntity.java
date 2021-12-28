@@ -98,7 +98,7 @@ public class OptionalProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return  name + " -> " +
+        return  name + " \u27A2 " +
                 "Monthly fee = " + String.format("%.2f", monthlyFee) + "€";
     }
 }

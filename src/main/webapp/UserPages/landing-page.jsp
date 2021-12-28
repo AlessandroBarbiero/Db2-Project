@@ -12,14 +12,19 @@
             font-size:300%;
             text-align:center;
         }
+        .box{
+            padding-left: 25%;
+        }
+
     </style>
 </head>
 
 <body>
 <h1> Landing Page! </h1>
-
+<div class="box">
 <!-- REGISTRATION FORM -->
 <form action="registration" method="post">
+
     <table style="width: 50%">
         <tr>
             <td>Username</td>
@@ -32,7 +37,9 @@
         <tr>
             <td>Email</td>
             <td><input type="email" name="email"/></td>
-        </tr></table>
+        </tr>
+    </table>
+
     <input type="submit" value="Register" />
 </form>
 
@@ -72,6 +79,8 @@
 <%
     }
 %>
+
+</div>
 </body>
 
 </html>

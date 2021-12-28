@@ -87,7 +87,8 @@ CREATE TABLE `service` (
 
 CREATE TABLE `service_composition` (
                                        `serviceId` int NOT NULL,
-                                       `servicePackageId` int NOT NULL
+                                       `servicePackageId` int NOT NULL,
+                                        PRIMARY KEY (`serviceId`,`servicePackageId`)
 );
 
 ALTER TABLE `order` ADD CONSTRAINT `order_fk0` FOREIGN KEY (`servicePackageId`) REFERENCES `service_package`(`id`);

@@ -7,7 +7,6 @@ CREATE TABLE `insolvent_users` (
 
 DELIMITER $$
 
-
 CREATE TRIGGER add_insolvent_user
     AFTER INSERT ON `order`
     FOR EACH ROW
@@ -26,8 +25,8 @@ begin
              WHERE user.id = new.userId);
 
     END IF;
-end; $$
-
+end;
+$$
 
 CREATE TRIGGER remove_insolvent_user
     AFTER UPDATE ON `order`
@@ -45,6 +44,7 @@ begin
         DELETE FROM insolvent_users
             WHERE insolvent_users.id = new.userId;
     END IF;
-END $$
+END
+$$
 
 DELIMITER ;

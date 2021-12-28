@@ -1,6 +1,5 @@
 CREATE TABLE `purchases_per_package` (
                                         `servicePackageId` int NOT NULL,
-                                        `servicePackageName` varchar(255) NOT NULL,
                                         `totalPurchases` int NOT NULL
 );
 
@@ -10,7 +9,8 @@ CREATE TRIGGER total_purchases_after_insert_sp
     AFTER INSERT ON service_package
     FOR EACH ROW
             INSERT INTO purchases_per_package
-                values(new.id, new.name, 0) $$
+                values(new.id, 0)
+$$
 
 CREATE TRIGGER total_purchases_after_insert_order
     AFTER INSERT ON `order`
@@ -22,7 +22,8 @@ CREATE TRIGGER total_purchases_after_insert_order
                     SET totalPurchases = totalPurchases + 1
                     WHERE new.servicePackageId = purchases_per_package.servicePackageId;
             END IF;
-        END $$
+        END
+$$
 
 CREATE TRIGGER total_purchases_after_update_order
     AFTER UPDATE ON `order`
@@ -34,12 +35,7 @@ CREATE TRIGGER total_purchases_after_update_order
                 SET totalPurchases = totalPurchases + 1
                 WHERE new.servicePackageId = purchases_per_package.servicePackageId;
             END IF;
-        END $$
-
-CREATE TRIGGER total_purchases_after_delete_sp
-    AFTER DELETE ON service_package
-    FOR EACH ROW
-        DELETE FROM purchases_per_package
-            WHERE purchases_per_package.servicePackageId = old.id $$
+        END
+$$
 
 DELIMITER ;

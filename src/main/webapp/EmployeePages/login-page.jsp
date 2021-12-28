@@ -10,6 +10,9 @@
             font-size:300%;
             text-align:center;
         }
+        .box{
+            padding-left: 25%;
+        }
     </style>
 </head>
 <body>
@@ -17,6 +20,7 @@
 <h1>Telco Login Page</h1>
 
 <br/>
+<div class="box">
 
 <!-- LOGIN FORM -->
 <form action="login-employee" method="post">
@@ -34,5 +38,6 @@
 </form>
 <br/>
 
+</div>
 </body>
 </html>

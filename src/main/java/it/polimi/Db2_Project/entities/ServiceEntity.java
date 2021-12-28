@@ -182,7 +182,7 @@ public class ServiceEntity implements Serializable {
         switch (type){
             case MOBILE_PHONE:
                 str.append(type).
-                        append(" -> number of Sms: ").append(numberOfSms).
+                        append(" \u27A2 number of Sms: ").append(numberOfSms).
                         append(" / number of minutes: ").append(numberOfMinutes).
                         append(" / extra fee for sms: ").append(String.format("%.2f", extraSmsFee)).
                         append("€ / extra fee for minutes: ").append(String.format("%.2f",extraMinutesFee)).append("€");
@@ -190,7 +190,7 @@ public class ServiceEntity implements Serializable {
             case FIXED_INTERNET:
             case MOBILE_INTERNET:
                 str.append(type).
-                        append(" -> number of Gb: ").append(numberOfGb).
+                        append(" \u27A2 number of Gb: ").append(numberOfGb).
                         append(" / extra fee for Gb: ").append(String.format("%.2f",extraGbFee)).append("€");
                 return str.toString();
             default:

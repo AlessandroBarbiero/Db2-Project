@@ -127,7 +127,7 @@
 
 <div class="row">
     <div class="column1">
-        <h2>Select one service packages from the available ones:</h2>
+        <h2>Select one service package from the available ones:</h2>
         <div class="container">
         <c:forEach var="pack" items="${packages}" varStatus="row">
             <a href="buy?chosen=${pack.id}">
@@ -178,7 +178,7 @@
             <table>
                 <tr>
                     <th>Package included</th>
-                    <th>Data</th>
+                    <th>Date</th>
                     <th>Total cost</th>
                 </tr>
                 <c:forEach var="rejected" items="${rejectedOrders}" varStatus="row">
