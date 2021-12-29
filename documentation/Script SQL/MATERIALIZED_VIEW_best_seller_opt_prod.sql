@@ -26,17 +26,19 @@ FOR EACH ROW
         WHERE optionalProductId = new.optionalProductId;
 	END IF;
 
-# cancellazioni
-CREATE TRIGGER revenue_opt_prod_delete
-    AFTER DELETE ON optional_product_choice
+# aggiornamenti
+CREATE TRIGGER revenue_opt_prod_update
+    AFTER UPDATE ON `order`
     FOR EACH ROW
-    UPDATE best_seller_opt_prod
-    SET revenue = revenue - (SELECT op.monthlyFee * numberOfMonths
-                             FROM `order` o JOIN validity_period v ON  o.validityPeriodId = v.id
-                                            JOIN optional_product_choice opc ON o.id = opc.orderId
-                                            JOIN optional_product op ON opc.optionalProductId = op.id
-                             WHERE o.id = old.orderId AND op.id = old.optionalProductId)
-    WHERE optionalProductId = old.optionalProductId;
+    IF old.valid = false AND new.valid = true THEN
+        UPDATE best_seller_opt_prod bsop
+        SET revenue = revenue + (SELECT op.monthlyFee * numberOfMonths
+                                 FROM `order` o JOIN validity_period v ON  o.validityPeriodId = v.id
+                                                JOIN optional_product_choice opc ON o.id = opc.orderId
+                                                JOIN optional_product op ON opc.optionalProductId = op.id
+                                 WHERE o.id = new.id AND op.id = bsop.optionalProductId)
+        WHERE optionalProductId IN (SELECT op2.optionalProductId FROM optional_product_choice op2 WHERE op2.orderId = new.id);
+    END IF;
         
 # query finale
 # SELECT optionalProductId, revenue

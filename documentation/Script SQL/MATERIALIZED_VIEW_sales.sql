@@ -39,28 +39,25 @@ FOR EACH ROW
         WHERE servicePackageId = (SELECT o.servicePackageId FROM `order` o WHERE o.id = new.orderId);
 	END IF;
 
-# cancellazioni
-CREATE TRIGGER all_delete
-    AFTER DELETE ON `order`
-    FOR EACH ROW
-    UPDATE sales_per_package
-    SET revenueWithoutOpProd = revenueWithoutOpProd - (SELECT monthlyFee * numberOfMonths
-                                                       FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
-                                                       WHERE o.id = old.id),
-        revenueWithOpProd = revenueWithOpProd - (SELECT monthlyFee * numberOfMonths
-                                                 FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
-                                                 WHERE o.id = old.id)
-    WHERE servicePackageId = old.servicePackageId;
-
-CREATE TRIGGER update_revenue_after_opt_prod_choice_delete
-    AFTER DELETE ON optional_product_choice
-    FOR EACH ROW
-    UPDATE sales_per_package
-    SET revenueWithOpProd = revenueWithOpProd - (SELECT op.monthlyFee * numberOfMonths
-                                                 FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
-                                                                JOIN optional_product_choice opc ON o.id = opc.orderId JOIN optional_product op ON opc.optionalProductId = op.id
-                                                 WHERE o.id = old.orderId AND op.id = old.optionalProductId)
-    WHERE servicePackageId = (SELECT o.servicePackageId FROM `order` o WHERE o.id = old.orderId);
+# aggiornamenti
+CREATE TRIGGER revenue_update
+AFTER UPDATE ON `order`
+FOR EACH ROW
+    IF old.valid = false AND new.valid = true THEN
+        UPDATE sales_per_package
+        SET revenueWithoutOpProd = revenueWithoutOpProd + (SELECT monthlyFee * numberOfMonths
+                                                           FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
+                                                           WHERE o.id = new.id),
+            revenueWithOpProd = revenueWithOpProd +
+                                (SELECT monthlyFee * numberOfMonths
+                                 FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
+                                 WHERE o.id = new.id) +
+                                (SELECT SUM(op.monthlyFee * numberOfMonths)
+                                 FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
+                                                JOIN optional_product_choice opc ON o.id = opc.orderId JOIN optional_product op ON opc.optionalProductId = op.id
+                                 WHERE o.id = new.id)
+        WHERE servicePackageId = new.servicePackageId;
+    END IF;
 
 # query finale
 # SELECT servicePackageId, revenueWithOpProd, revenueWithoutOpProd
