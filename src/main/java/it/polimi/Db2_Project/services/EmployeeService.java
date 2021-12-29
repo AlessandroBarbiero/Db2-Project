@@ -1,12 +1,14 @@
 package it.polimi.Db2_Project.services;
 
 import it.polimi.Db2_Project.entities.*;
+import it.polimi.Db2_Project.utility.PurchasesBean;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Stateless
@@ -106,8 +108,37 @@ public class EmployeeService {
                 .getResultStream().findFirst();
     }
 
-    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen)
-    {
+    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen) {
         return em.createNamedQuery("OptionalProduct.findByPackage", OptionalProductEntity.class).setParameter("packId", chosen).getResultList();
     }
+
+//%%%%%%%%%%%%%%%%%%% SALES REPORT %%%%%%%%%%%%%%
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Integer> totalPurchasesPerPackage(){
+        Map<String, Integer> resultMap = new HashMap<>();
+
+        String sql = "SELECT s.name, p.totalPurchases " +
+                "FROM purchases_per_package p, service_package s " +
+                "WHERE p.servicePackageId = s.id";
+
+        List<Object[]> result = em.createNativeQuery(sql, Object[].class).getResultList();
+
+        for(Object[] tuple : result ){
+            resultMap.put((String) tuple[0], (Integer) tuple[1]);
+        }
+
+        return resultMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PurchasesBean> totalPurchasesPerPackageAndVP(){
+        String sql = "SELECT s.name as servicePackageName, vp.numberOfMonths as numberOfMonths, vp.monthlyFee as monthlyFee, p.totalPurchases as totalPurchases " +
+                "FROM purchases_per_package_and_vp p, service_package s , validity_period vp " +
+                "WHERE p.servicePackageId = s.id AND p.validityPeriodId = vp.id ";
+
+        return  em.createNativeQuery(sql, PurchasesBean.class).getResultList();
+
+    }
+
 }
