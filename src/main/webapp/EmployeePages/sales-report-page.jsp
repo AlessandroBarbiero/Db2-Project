@@ -37,14 +37,14 @@
 <h1> Sales Report </h1>
 
 <c:catch var="missingElement">
-    <jsp:useBean id="purchasesPerPackage" scope="request" type="java.util.Map<java.lang.String, java.lang.Integer>"/>
+    <jsp:useBean id="purchasesPerPackage" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.PurchasesBean>"/>
 </c:catch>
 
 <c:if test="${missingElement != null}">
     <jsp:forward page="/sales-report" />
 </c:if>
 
-<jsp:useBean id="purchasesPerPackageAndVP" scope="request" type="java.util.List<it.polimi.Db2_Project.utility.PurchasesBean>"/>
+<jsp:useBean id="purchasesPerPackageAndVP" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.PurchasesBean>"/>
 
 <div class="central-box">
     <table>
@@ -54,8 +54,8 @@
         </tr>
         <c:forEach var="value" items="${purchasesPerPackage}">
             <tr>
-                <td>${value.key}</td>
-                <td>${value.value}</td>
+                <td>${value.servicePackageName}</td>
+                <td>${value.totalPurchases}</td>
             </tr>
         </c:forEach>
     </table>

@@ -1,14 +1,12 @@
 package it.polimi.Db2_Project.services;
 
 import it.polimi.Db2_Project.entities.*;
-import it.polimi.Db2_Project.utility.PurchasesBean;
+import it.polimi.Db2_Project.dto.PurchasesBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Stateless
@@ -115,20 +113,14 @@ public class EmployeeService {
 //%%%%%%%%%%%%%%%%%%% SALES REPORT %%%%%%%%%%%%%%
 
     @SuppressWarnings("unchecked")
-    public Map<String, Integer> totalPurchasesPerPackage(){
-        Map<String, Integer> resultMap = new HashMap<>();
+    public List<PurchasesBean> totalPurchasesPerPackage(){
 
-        String sql = "SELECT s.name, p.totalPurchases " +
+        String sql = "SELECT s.name as servicePackageName, p.totalPurchases as totalPurchases " +
                 "FROM purchases_per_package p, service_package s " +
                 "WHERE p.servicePackageId = s.id";
 
-        List<Object[]> result = em.createNativeQuery(sql, Object[].class).getResultList();
+        return em.createNativeQuery(sql, PurchasesBean.class).getResultList();
 
-        for(Object[] tuple : result ){
-            resultMap.put((String) tuple[0], (Integer) tuple[1]);
-        }
-
-        return resultMap;
     }
 
     @SuppressWarnings("unchecked")

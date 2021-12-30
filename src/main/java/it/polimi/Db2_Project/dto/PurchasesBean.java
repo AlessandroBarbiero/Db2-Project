@@ -1,4 +1,4 @@
-package it.polimi.Db2_Project.utility;
+package it.polimi.Db2_Project.dto;
 
 public class PurchasesBean {
     private String servicePackageName;
@@ -7,6 +7,11 @@ public class PurchasesBean {
     private Integer totalPurchases;
 
     public PurchasesBean() {
+    }
+
+    public PurchasesBean(String servicePackageName, Integer totalPurchases) {
+        this.servicePackageName = servicePackageName;
+        this.totalPurchases = totalPurchases;
     }
 
     public PurchasesBean(String servicePackageName, Integer numberOfMonths, Float monthlyFee, Integer totalPurchases) {
