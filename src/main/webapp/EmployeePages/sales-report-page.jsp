@@ -11,6 +11,11 @@
             font-size:300%;
             text-align:center;
         }
+
+        h2 {
+            text-align: center;
+        }
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -44,7 +49,6 @@
     <jsp:forward page="/sales-report" />
 </c:if>
 
-<jsp:useBean id="purchasesPerPackageAndVP" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.PurchasesBean>"/>
 
 <div class="central-box">
     <table>
@@ -62,6 +66,8 @@
 
     <br/>
 
+    <jsp:useBean id="purchasesPerPackageAndVP" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.PurchasesBean>"/>
+
     <table>
         <tr>
             <td>Package Name</td>
@@ -75,6 +81,73 @@
                 <td>${tuple.numberOfMonths}</td>
                 <td>${tuple.monthlyFee}</td>
                 <td>${tuple.totalPurchases}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br/>
+
+    <jsp:useBean id="insolventUsers" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.UserEntity>"/>
+
+    <h2>Insolvent Users</h2>
+    <table>
+        <tr>
+            <td>Username</td>
+            <td>Email</td>
+        </tr>
+        <c:forEach var="user" items="${insolventUsers}">
+            <tr>
+                <td>${user.username}</td>
+                <td>${user.email}</td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <br/>
+
+    <jsp:useBean id="suspendedOrders" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.OrderEntity>"/>
+
+    <h2>Suspended Orders</h2>
+    <table>
+        <tr>
+            <td>User</td>
+            <td>Date</td>
+            <td>Service Package</td>
+            <td>Number of months</td>
+            <td>Monthly fee</td>
+            <td>Total Price</td>
+        </tr>
+        <c:forEach var="order" items="${suspendedOrders}">
+            <tr>
+                <td>${order.user.username}</td>
+                <td>${order.creation}</td>
+                <td>${order.servicePackage.name}</td>
+                <td>${order.validityPeriod.numberOfMonths}</td>
+                <td>${order.validityPeriod.monthlyFee}</td>
+                <td>${order.totalPrice}</td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <br/>
+
+    <jsp:useBean id="alerts" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.BlacklistEntity>"/>
+
+    <h2>Alerts</h2>
+    <table>
+        <tr>
+            <td>UserId</td>
+            <td>Username</td>
+            <td>Email</td>
+            <td>Last Rejection</td>
+            <td>Amount</td>
+        </tr>
+        <c:forEach var="alert" items="${alerts}">
+            <tr>
+                <td>${alert.userId}</td>
+                <td>${alert.username}</td>
+                <td>${alert.email}</td>
+                <td>${alert.lastRejection}</td>
+                <td>${alert.amount}</td>
             </tr>
         </c:forEach>
     </table>

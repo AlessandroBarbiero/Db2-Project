@@ -4,6 +4,7 @@ import it.polimi.Db2_Project.entities.*;
 import it.polimi.Db2_Project.dto.PurchasesBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Order;
 import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;
@@ -133,4 +134,24 @@ public class EmployeeService {
 
     }
 
+    public List<UserEntity> findInsolventUsers(){
+        String sql = "SELECT * " +
+                "FROM insolvent_users ";
+
+        return em.createNativeQuery(sql, UserEntity.class).getResultList();
+    }
+
+    public List<OrderEntity> findSuspendedOrders(){
+        String sql = "SELECT id " +
+                "FROM suspended_orders ";
+
+        List<Integer> orders = em.createNativeQuery(sql, Integer.class).getResultList();
+
+        return em.createNamedQuery("Order.findAmong", OrderEntity.class).setParameter("id", orders).getResultList();
+    }
+
+    public List<BlacklistEntity> findAllAlerts(){
+
+        return em.createNamedQuery("Blacklist.findAll", BlacklistEntity.class).getResultList();
+    }
 }

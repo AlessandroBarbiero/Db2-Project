@@ -1,5 +1,8 @@
 package it.polimi.Db2_Project.web.employee;
 
+import it.polimi.Db2_Project.entities.BlacklistEntity;
+import it.polimi.Db2_Project.entities.OrderEntity;
+import it.polimi.Db2_Project.entities.UserEntity;
 import it.polimi.Db2_Project.services.EmployeeService;
 import it.polimi.Db2_Project.dto.PurchasesBean;
 import jakarta.ejb.EJB;
@@ -27,6 +30,14 @@ public class SalesReportServlet extends HttpServlet {
         List<PurchasesBean> purchasesPerPackageAndVP = employeeService.totalPurchasesPerPackageAndVP();
         request.setAttribute("purchasesPerPackageAndVP", purchasesPerPackageAndVP);
 
+        List<UserEntity> insolventUsers = employeeService.findInsolventUsers();
+        request.setAttribute("insolventUsers", insolventUsers);
+
+        List<OrderEntity> suspendedOrders = employeeService.findSuspendedOrders();
+        request.setAttribute("suspendedOrders", suspendedOrders);
+
+        List<BlacklistEntity> alerts = employeeService.findAllAlerts();
+        request.setAttribute("alerts", alerts);
 
         request.getRequestDispatcher("/EmployeePages/sales-report-page.jsp").forward(request, response);
     }

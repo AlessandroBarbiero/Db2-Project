@@ -1,15 +1,15 @@
 package it.polimi.Db2_Project.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "blacklist", schema = "db2_database")
+@NamedQueries({
+        @NamedQuery(name = "Blacklist.findAll", query = "select b from BlacklistEntity b")
+})
 public class BlacklistEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
