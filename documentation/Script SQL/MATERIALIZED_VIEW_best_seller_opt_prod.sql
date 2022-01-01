@@ -40,8 +40,4 @@ CREATE TRIGGER revenue_opt_prod_update
         WHERE optionalProductId IN (SELECT op2.optionalProductId FROM optional_product_choice op2 WHERE op2.orderId = new.id);
     END IF;
         
-# query finale
-# SELECT optionalProductId, revenue
-# FROM best_seller_opt_prod
-# ORDER BY revenue desc
-# LIMIT 1
+

@@ -19,3 +19,9 @@ VALUES
        (12, 30),
        (24, 28),
        (36, 25);
+
+# EMPLOYEE REGISTRATION INSERTIONS
+INSERT INTO employee (username, password)
+VALUES
+        ('giulia', 'giulia'),
+        ('ale', 'ale');

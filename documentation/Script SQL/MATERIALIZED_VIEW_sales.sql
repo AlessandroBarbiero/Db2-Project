@@ -59,9 +59,8 @@ FOR EACH ROW
         WHERE servicePackageId = new.servicePackageId;
     END IF;
 
-# query finale
-# SELECT servicePackageId, revenueWithOpProd, revenueWithoutOpProd
-# FROM sales_per_package
+
+
         
         
         

@@ -72,7 +72,7 @@
         <tr>
             <td>Package Name</td>
             <td>Number Of Months</td>
-            <td>MonthlyFee</td>
+            <td>Monthly Fee</td>
             <td>Total Purchases</td>
         </tr>
         <c:forEach var="tuple" items="${purchasesPerPackageAndVP}">
@@ -81,6 +81,53 @@
                 <td>${tuple.numberOfMonths}</td>
                 <td>${tuple.monthlyFee}</td>
                 <td>${tuple.totalPurchases}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br/>
+
+    <jsp:useBean id="salesPerPackage" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.SalesBean>"/>
+    <table>
+        <tr>
+            <td>Package Name</td>
+            <td>Revenue without Optional Products</td>
+            <td>Revenue with Optional Products</td>
+        </tr>
+        <c:forEach var="sale" items="${salesPerPackage}">
+            <tr>
+                <td>${sale.servicePackageName}</td>
+                <td>${sale.revenueWithoutOpProd}</td>
+                <td>${sale.revenueWithOpProd}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br/>
+
+    <jsp:useBean id="avgPerPackage" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.AverageBean>"/>
+    <table>
+        <tr>
+            <td>Package Name</td>
+            <td>Average optional products sold</td>
+        </tr>
+        <c:forEach var="value" items="${avgPerPackage}">
+            <tr>
+                <td>${value.servicePackageName}</td>
+                <td>${value.avg}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br/>
+
+    <jsp:useBean id="bestSeller" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.BestSellerOptProdBean>"/>
+    <table>
+        <tr>
+            <td>Optional Product Name</td>
+            <td>Revenue</td>
+        </tr>
+        <c:forEach var="value" items="${bestSeller}">
+            <tr>
+                <td>${value.optionalProductName}</td>
+                <td>${value.revenue}</td>
             </tr>
         </c:forEach>
     </table>

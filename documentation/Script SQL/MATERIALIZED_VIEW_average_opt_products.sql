@@ -44,9 +44,5 @@ FOR EACH ROW
         SET totOrders = totOrders + 1,
             optProductsSold = optProductsSold + (SELECT COUNT(opc.optionalProductId) FROM optional_product_choice opc WHERE opc.orderId = new.id),
             `avg` = (optProductsSold / totOrders)
-        WHERE servicePackageId = new.servicePackageId;;
+        WHERE servicePackageId = new.servicePackageId;
     END IF;
-	
-# query finale
-# SELECT servicePackageId, `avg`
-# FROM average_number_opt_products_per_package

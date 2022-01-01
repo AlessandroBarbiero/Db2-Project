@@ -1,5 +1,8 @@
 package it.polimi.Db2_Project.web.employee;
 
+import it.polimi.Db2_Project.dto.AverageBean;
+import it.polimi.Db2_Project.dto.BestSellerOptProdBean;
+import it.polimi.Db2_Project.dto.SalesBean;
 import it.polimi.Db2_Project.entities.BlacklistEntity;
 import it.polimi.Db2_Project.entities.OrderEntity;
 import it.polimi.Db2_Project.entities.UserEntity;
@@ -38,6 +41,15 @@ public class SalesReportServlet extends HttpServlet {
 
         List<BlacklistEntity> alerts = employeeService.findAllAlerts();
         request.setAttribute("alerts", alerts);
+
+        List<AverageBean> avgPerPackage = employeeService.avgOptProdPerPackage();
+        request.setAttribute("avgPerPackage", avgPerPackage);
+
+        List<BestSellerOptProdBean> bestSeller = employeeService.bestSellerOptProduct();
+        request.setAttribute("bestSeller", bestSeller);
+
+        List<SalesBean> salesPerPackage = employeeService.salesPerPackage();
+        request.setAttribute("salesPerPackage", salesPerPackage);
 
         request.getRequestDispatcher("/EmployeePages/sales-report-page.jsp").forward(request, response);
     }
