@@ -39,6 +39,9 @@ public class OrderEntity implements Serializable {
 
 //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
+    @OneToOne(mappedBy = "order")
+    private ScheduleActivationEntity scheduleActivation;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn (name = "userId")
     private UserEntity user;
@@ -107,7 +110,11 @@ public class OrderEntity implements Serializable {
         return optionalProducts;
     }
 
-//%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%
+    public ScheduleActivationEntity getScheduleActivation() {
+        return scheduleActivation;
+    }
+
+    //%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%
 
     public void setId(int id) {
     this.id = id;
@@ -143,5 +150,9 @@ public class OrderEntity implements Serializable {
 
     public void setOptionalProducts(List<OptionalProductEntity> optionalProducts) {
         this.optionalProducts = optionalProducts;
+    }
+
+    public void setScheduleActivation(ScheduleActivationEntity scheduleActivation) {
+        this.scheduleActivation = scheduleActivation;
     }
 }

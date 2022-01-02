@@ -1,12 +1,5 @@
 CREATE TABLE suspended_orders (
-                         `id` int NOT NULL,
-                         `valid` bool NOT NULL,
-                         `startDate` DATE NOT NULL,
-                         `creation` TIMESTAMP NOT NULL,
-                         `totalPrice` float NOT NULL,
-                         `servicePackageId` int NOT NULL,
-                         `userId` int NOT NULL,
-                         `validityPeriodId` int NOT NULL
+                         `id` int NOT NULL
 );
 
 DELIMITER $$
@@ -18,7 +11,7 @@ begin
     IF  new.valid = false
     THEN
         INSERT INTO suspended_orders
-            value (new.id, new.valid, NEW.startDate, new.creation, new.totalPrice, new.servicePackageId, new.userId, new.validityPeriodId);
+            value (new.id);
 
     END IF;
 end;

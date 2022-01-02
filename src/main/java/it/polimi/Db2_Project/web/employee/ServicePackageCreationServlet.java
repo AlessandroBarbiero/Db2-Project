@@ -25,7 +25,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
 
     private static final String ERROR_STRING = "errorStringSPC";
     private static final String INVALID_CHOICE = "Please select only one price given a time interval " +
-            "(e.g. you can't select 3.00€ / 8 months and 5.00€ / 8 months)";
+            "(e.g. you can't select 3.00€ / 12 months and 5.00€ / 12 months)";
     private static final String NAME_ALREADY_USED = "The selected name for this Service Package is already in use," +
             " please select a different one";
     private static final String NO_SERVICES = "Please select at least one service";

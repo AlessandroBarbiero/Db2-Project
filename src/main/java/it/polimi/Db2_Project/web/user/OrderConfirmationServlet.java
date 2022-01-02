@@ -14,8 +14,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
 
 @WebServlet(name = "orderConfirmationServlet", value = "/confirmation")
 public class OrderConfirmationServlet extends HttpServlet {
@@ -59,10 +59,11 @@ public class OrderConfirmationServlet extends HttpServlet {
 
         order.setTotalPrice(totalCost);
 
-        userService.createOrder(order);
-        if (order.getValid())
+        Optional<OrderEntity> attachedOrder;
+        attachedOrder = userService.createOrder(order);
+        if (order.getValid() && attachedOrder.isPresent())
         {
-            schedule.setOrder(order);
+            schedule.setOrder(attachedOrder.get());
             schedule.setStart(order.getStartDate());
             Date endDate = DateUtils.addMonths(order.getStartDate(), order.getValidityPeriod().getNumberOfMonths());
             schedule.setEnd(endDate);

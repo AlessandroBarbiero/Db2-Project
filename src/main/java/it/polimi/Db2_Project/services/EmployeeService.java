@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.Order;
 import jakarta.validation.ConstraintViolationException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,7 +151,10 @@ public class EmployeeService {
 
         List<Integer> orders = em.createNativeQuery(sql, Integer.class).getResultList();
 
-        return em.createNamedQuery("Order.findAmong", OrderEntity.class).setParameter("id", orders).getResultList();
+        if(orders.isEmpty())
+            return new ArrayList<>();
+        else
+            return em.createNamedQuery("Order.findAmong", OrderEntity.class).setParameter("id", orders).getResultList();
     }
 
     public List<BlacklistEntity> findAllAlerts(){

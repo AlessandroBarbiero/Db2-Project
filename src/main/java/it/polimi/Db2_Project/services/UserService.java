@@ -89,9 +89,10 @@ public class UserService {
 
     public Optional<OrderEntity> createOrder(OrderEntity order){
         try {
-            em.merge(order);
+            Optional<OrderEntity> result;
+            result = Optional.of(em.merge(order));
             em.flush();
-            return Optional.of(order);
+            return result;
         } catch (ConstraintViolationException e) {
             return Optional.empty();
         }
@@ -99,9 +100,10 @@ public class UserService {
 
     public Optional<ScheduleActivationEntity> createScheduleActivation(ScheduleActivationEntity scheduleActivation){
         try {
-            em.merge(scheduleActivation);
+            Optional<ScheduleActivationEntity> result;
+            result = Optional.of(em.merge(scheduleActivation));
             em.flush();
-            return Optional.of(scheduleActivation);
+            return result;
         } catch (ConstraintViolationException e) {
             return Optional.empty();
         }

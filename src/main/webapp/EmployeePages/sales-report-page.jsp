@@ -64,7 +64,7 @@
         </c:forEach>
     </table>
 
-    <br/>
+    <br/><br/>
 
     <jsp:useBean id="purchasesPerPackageAndVP" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.PurchasesBean>"/>
 
@@ -84,7 +84,7 @@
             </tr>
         </c:forEach>
     </table>
-    <br/>
+    <br/><br/>
 
     <jsp:useBean id="salesPerPackage" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.SalesBean>"/>
     <table>
@@ -101,7 +101,7 @@
             </tr>
         </c:forEach>
     </table>
-    <br/>
+    <br/><br/>
 
     <jsp:useBean id="avgPerPackage" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.AverageBean>"/>
     <table>
@@ -119,6 +119,7 @@
     <br/>
 
     <jsp:useBean id="bestSeller" scope="request" type="java.util.List<it.polimi.Db2_Project.dto.BestSellerOptProdBean>"/>
+    <h2>Best Seller Optional Product</h2>
     <table>
         <tr>
             <td>Optional Product Name</td>
