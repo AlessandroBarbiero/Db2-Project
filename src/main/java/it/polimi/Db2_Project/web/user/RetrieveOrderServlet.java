@@ -31,6 +31,7 @@ public class RetrieveOrderServlet extends HttpServlet {
         Optional <OrderEntity> order = userService.findOrderById(orderId);
         if (order.isPresent() && !order.get().getValid()){
             session.setAttribute("pendingOrder",order.get());
+
             response.sendRedirect("confirmation");
         } else {
             response.sendRedirect("home-user");

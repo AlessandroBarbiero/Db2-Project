@@ -91,6 +91,14 @@ CREATE TABLE `service_composition` (
                                         PRIMARY KEY (`serviceId`,`servicePackageId`)
 );
 
+CREATE TABLE `schedule_activation` (
+                                        `id` int NOT NULL AUTO_INCREMENT,
+                                        `orderId` int NOT NULL,
+                                        `startDate` DATE NOT NULL,
+                                        `endDate` DATE NOT NULL,
+                                        PRIMARY KEY (`id`)
+);
+
 ALTER TABLE `order` ADD CONSTRAINT `order_fk0` FOREIGN KEY (`servicePackageId`) REFERENCES `service_package`(`id`);
 ALTER TABLE `order` ADD CONSTRAINT `order_fk1` FOREIGN KEY (`userId`) REFERENCES `user`(`id`);
 ALTER TABLE `order` ADD CONSTRAINT `order_fk2` FOREIGN KEY (`validityPeriodId`) REFERENCES `validity_period`(`id`);
@@ -109,4 +117,4 @@ ALTER TABLE `possible_extensions` ADD CONSTRAINT `possible_extensions_fk1` FOREI
 ALTER TABLE `service_composition` ADD CONSTRAINT `service_composition_fk0` FOREIGN KEY (`serviceId`) REFERENCES `service`(`id`);
 ALTER TABLE `service_composition` ADD CONSTRAINT `service_composition_fk1` FOREIGN KEY (`servicePackageId`) REFERENCES `service_package`(`id`);
 
-
+ALTER TABLE `schedule_activation` ADD CONSTRAINT `schedule_activation_fk0` FOREIGN KEY (`orderId`) REFERENCES `order`(`id`);

@@ -1,6 +1,7 @@
 package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.entities.OrderEntity;
+import it.polimi.Db2_Project.entities.ScheduleActivationEntity;
 import it.polimi.Db2_Project.entities.ServicePackageEntity;
 import it.polimi.Db2_Project.entities.UserEntity;
 import it.polimi.Db2_Project.services.UserService;
@@ -33,8 +34,10 @@ public class UserHomePageServlet extends HttpServlet {
         if (user != null){
             List<OrderEntity> rejectedOrders = userService.findRejectedOrders(user.getId());
             request.setAttribute("rejectedOrders", rejectedOrders);
-        }
 
+            List<ScheduleActivationEntity> validOrders = userService.findValidOrders(user.getId());
+            request.setAttribute("validOrders", validOrders);
+        }
 
         request.getRequestDispatcher("/UserPages/home-page.jsp").forward(request, response);
     }

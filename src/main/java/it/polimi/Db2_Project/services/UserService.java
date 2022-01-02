@@ -97,6 +97,17 @@ public class UserService {
         }
     }
 
+    public Optional<ScheduleActivationEntity> createScheduleActivation(ScheduleActivationEntity scheduleActivation){
+        try {
+            em.merge(scheduleActivation);
+            em.flush();
+            return Optional.of(scheduleActivation);
+        } catch (ConstraintViolationException e) {
+            return Optional.empty();
+        }
+    }
+
+
     public List<OrderEntity> findRejectedOrders(int userId) {
         return em.createNamedQuery("Order.findRejected", OrderEntity.class).setParameter("userId", userId).getResultList();
     }
@@ -105,5 +116,9 @@ public class UserService {
         return em.createNamedQuery("Order.findById", OrderEntity.class)
                 .setParameter("orderId", orderId)
                 .getResultStream().findFirst();
+    }
+
+    public List<ScheduleActivationEntity> findValidOrders(int userId){
+        return em.createNamedQuery("Schedule.findValid", ScheduleActivationEntity.class).setParameter("userId", userId).getResultList();
     }
 }

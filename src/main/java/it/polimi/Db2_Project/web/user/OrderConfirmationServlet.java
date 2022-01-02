@@ -1,9 +1,6 @@
 package it.polimi.Db2_Project.web.user;
 
-import it.polimi.Db2_Project.entities.OptionalProductEntity;
-import it.polimi.Db2_Project.entities.OrderEntity;
-import it.polimi.Db2_Project.entities.UserEntity;
-import it.polimi.Db2_Project.entities.ValidityPeriodEntity;
+import it.polimi.Db2_Project.entities.*;
 import it.polimi.Db2_Project.services.UserService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
@@ -12,10 +9,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 
 @WebServlet(name = "orderConfirmationServlet", value = "/confirmation")
 public class OrderConfirmationServlet extends HttpServlet {
@@ -48,6 +48,7 @@ public class OrderConfirmationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         OrderEntity order = (OrderEntity) session.getAttribute("pendingOrder");
+        ScheduleActivationEntity schedule = new ScheduleActivationEntity();
 
         order.setValid(isValidPayment(req));
         order.setCreation(Timestamp.from(Instant.now()));
@@ -59,7 +60,14 @@ public class OrderConfirmationServlet extends HttpServlet {
         order.setTotalPrice(totalCost);
 
         userService.createOrder(order);
-
+        if (order.getValid())
+        {
+            schedule.setOrder(order);
+            schedule.setStart(order.getStartDate());
+            Date endDate = DateUtils.addMonths(order.getStartDate(), order.getValidityPeriod().getNumberOfMonths());
+            schedule.setEnd(endDate);
+            userService.createScheduleActivation(schedule);
+        }
         session.removeAttribute("pendingOrder");
 
         resp.sendRedirect("home-user");

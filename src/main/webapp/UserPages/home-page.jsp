@@ -1,6 +1,7 @@
 <%@ page import="it.polimi.Db2_Project.entities.UserEntity" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -184,17 +185,34 @@
                 <c:forEach var="rejected" items="${rejectedOrders}" varStatus="row">
                     <tr>
                         <td> <a href="retrieve-order?orderId=${rejected.id}"> ${rejected.servicePackage.name} </a></td>
-                        <td>${rejected.creation}</td>
+                        <td> <fmt:formatDate type = "both" value= "${rejected.creation}"/> </td>
                         <td>${rejected.totalPrice}</td>
                     </tr>
                 </c:forEach>
             </table>
         </c:if>
 
+        <c:catch var="missingValidOrdersException">
+        <jsp:useBean id="validOrders" scope="request" type="java.util.List<it.polimi.Db2_Project.entities.ScheduleActivationEntity>"/>
+        </c:catch>
 
-
-
-
+        <h2>Schedule Activation</h2>
+        <c:if test="${user != null}">
+            <table>
+                <tr>
+                    <th>Order</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+                <c:forEach var="valid" items="${validOrders}" varStatus="row">
+                    <tr>
+                            <td>${valid.order.servicePackage.name}</td>
+                            <td> <fmt:formatDate type = "date" value= "${valid.start}"/> </td>
+                        <td> <fmt:formatDate type = "date" value= "${valid.end}"/> </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
     </div>
 </div>
 
