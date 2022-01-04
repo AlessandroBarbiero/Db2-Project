@@ -1,3 +1,10 @@
+CREATE VIEW `purchases_per_package_view` (servicePackageId, servicePackageName, totalPurchases) as
+    SELECT s.id, s.name, count(*)
+    FROM service_package s, `order` o
+    WHERE s.id = o.servicePackageId AND o.valid = true
+    GROUP BY s.id;
+
+# MATERIALIZED VIEW
 CREATE TABLE `purchases_per_package` (
                                         `servicePackageId` int NOT NULL,
                                         `totalPurchases` int NOT NULL

@@ -1,3 +1,9 @@
+CREATE VIEW `suspended_orders_view` as
+    SELECT o.id, u.username, s.name, v.monthlyFee, v.numberOfMonths, o.creation, o.totalPrice
+    FROM `order` o, user u, service_package s, validity_period v
+    WHERE u.id = o.userId AND o.validityPeriodId = v.id AND o.servicePackageId = s.id AND o.valid = false;
+
+# MATERIALIZED VIEW
 CREATE TABLE suspended_orders (
                          `id` int NOT NULL
 );

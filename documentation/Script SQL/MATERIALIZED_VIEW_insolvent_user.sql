@@ -1,7 +1,12 @@
+CREATE VIEW `insolvent_users_view` as
+SELECT distinct u.username, u.email
+FROM `order` o, user u
+WHERE u.id = o.userId AND o.valid = false;
+
+# MATERIALIZED VIEW
 CREATE TABLE `insolvent_users` (
                                    `id` int NOT NULL UNIQUE,
                                    `username` varchar(255) NOT NULL UNIQUE,
-                                   `password` varchar(255) NOT NULL,
                                    `email` varchar(255) NOT NULL UNIQUE
 );
 
@@ -20,9 +25,9 @@ begin
             )
     THEN
         INSERT INTO insolvent_users
-            (SELECT *
-             FROM user
-             WHERE user.id = new.userId);
+            (SELECT u.id, u.username, u.email
+             FROM user u
+             WHERE u.id = new.userId);
 
     END IF;
 end;

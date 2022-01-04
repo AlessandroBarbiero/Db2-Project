@@ -352,7 +352,6 @@ $$
 CREATE TABLE `insolvent_users` (
                                    `id` int NOT NULL UNIQUE,
                                    `username` varchar(255) NOT NULL UNIQUE,
-                                   `password` varchar(255) NOT NULL,
                                    `email` varchar(255) NOT NULL UNIQUE
 );
 $$
@@ -370,9 +369,9 @@ begin
                     )
     THEN
         INSERT INTO insolvent_users
-            (SELECT *
-             FROM user
-             WHERE user.id = new.userId);
+            (SELECT u.id, u.username, u.email
+             FROM user u
+             WHERE u.id = new.userId);
 
     END IF;
 end;
