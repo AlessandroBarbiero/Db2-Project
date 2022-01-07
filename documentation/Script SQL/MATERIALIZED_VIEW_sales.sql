@@ -52,16 +52,14 @@ FOR EACH ROW
                                 (SELECT monthlyFee * numberOfMonths
                                  FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
                                  WHERE o.id = new.id) +
-                                (SELECT SUM(op.monthlyFee * numberOfMonths)
+                                (SELECT COALESCE(SUM(op.monthlyFee * numberOfMonths), 0)
                                  FROM `order` o JOIN validity_period v ON o.validityPeriodId = v.id
                                                 JOIN optional_product_choice opc ON o.id = opc.orderId JOIN optional_product op ON opc.optionalProductId = op.id
                                  WHERE o.id = new.id)
         WHERE servicePackageId = new.servicePackageId;
     END IF;
 
-
-
-        
+# coalesce: funzione che ritorna il primo valore non nullo tra i parametri passati
         
         
         

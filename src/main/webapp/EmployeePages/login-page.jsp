@@ -10,9 +10,41 @@
             font-size:300%;
             text-align:center;
         }
-        .box{
-            padding-left: 25%;
+
+        form {
+            border: 3px solid #f1f1f1;
+            width: 50%;
+            text-align: center;
+            margin: auto;
         }
+
+        input[type=text], input[type=password] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 20%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
     </style>
 </head>
 <body>
@@ -20,24 +52,24 @@
 <h1>Telco Login Page</h1>
 
 <br/>
-<div class="box">
+
 
 <!-- LOGIN FORM -->
 <form action="login-employee" method="post">
-    <table style="width: 50%">
-        <tr>
-            <td>Username</td>
-            <td><input type="text" name="username" required/></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password" required/></td>
-        </tr>
-    </table>
-    <input type="submit" value="Login" />
+    <div class="container">
+        <label><b>Username</b></label>
+        <input type="text" name="username" required>
+         </br>
+         </br>
+         </br>
+        <label><b>Password</b></label>
+        <input type="password" name="password" required>
+         </br>
+         </br>
+         </br>
+        <button type="submit">Login</button>
+    </div>
 </form>
-<br/>
 
-</div>
 </body>
 </html>
