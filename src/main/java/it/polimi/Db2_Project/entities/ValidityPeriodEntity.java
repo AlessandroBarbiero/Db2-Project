@@ -3,9 +3,7 @@ package it.polimi.Db2_Project.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity

@@ -1,7 +1,7 @@
 package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.entities.OrderEntity;
-import it.polimi.Db2_Project.services.UserService;
+import it.polimi.Db2_Project.services.OrderService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class RetrieveOrderServlet extends HttpServlet {
 
     @EJB
-    private UserService userService;
+    private OrderService orderService;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -28,7 +28,7 @@ public class RetrieveOrderServlet extends HttpServlet {
             return;
         }
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        Optional <OrderEntity> order = userService.findOrderById(orderId);
+        Optional <OrderEntity> order = orderService.findOrderById(orderId);
         if (order.isPresent() && !order.get().getValid()){
             session.setAttribute("pendingOrder",order.get());
 

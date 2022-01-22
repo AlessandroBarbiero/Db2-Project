@@ -1,7 +1,6 @@
 package it.polimi.Db2_Project.web.employee;
 
 import it.polimi.Db2_Project.entities.EmployeeEntity;
-import it.polimi.Db2_Project.entities.UserEntity;
 import it.polimi.Db2_Project.services.EmployeeService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;

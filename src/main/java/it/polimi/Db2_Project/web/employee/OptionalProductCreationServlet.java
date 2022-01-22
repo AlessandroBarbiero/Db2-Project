@@ -1,6 +1,6 @@
 package it.polimi.Db2_Project.web.employee;
 
-import it.polimi.Db2_Project.services.EmployeeService;
+import it.polimi.Db2_Project.services.OptionalProductService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class OptionalProductCreationServlet extends HttpServlet {
 
     @EJB
-    private EmployeeService employeeService;
+    private OptionalProductService optionalProductService;
 
     private static final String EMPTY_FIELD_ERROR = "Please fill all the fields";
     private static final String ERROR_STRING = "errorStringOP";
@@ -37,10 +37,10 @@ public class OptionalProductCreationServlet extends HttpServlet {
         }
         else {
             monthlyFee = new Float(monthlyFeeString);
-            if(employeeService.findOptionalProductByName(name).isPresent())
+            if(optionalProductService.findOptionalProductByName(name).isPresent())
                 session.setAttribute(ERROR_STRING, INVALID_NAME);
             else
-                employeeService.createOptionalProduct(name, monthlyFee);
+                optionalProductService.createOptionalProduct(name, monthlyFee);
         }
         response.sendRedirect("home-employee");
     }

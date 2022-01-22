@@ -4,7 +4,10 @@ import it.polimi.Db2_Project.entities.OptionalProductEntity;
 import it.polimi.Db2_Project.entities.ServiceEntity;
 import it.polimi.Db2_Project.entities.ValidityPeriodEntity;
 import it.polimi.Db2_Project.exceptions.ValidityPeriodOverloadException;
-import it.polimi.Db2_Project.services.EmployeeService;
+import it.polimi.Db2_Project.services.OptionalProductService;
+import it.polimi.Db2_Project.services.ServicePackageService;
+import it.polimi.Db2_Project.services.ServiceService;
+import it.polimi.Db2_Project.services.ValidityPeriodService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,8 +23,15 @@ import java.util.Optional;
 
 @WebServlet(name = "servicePackageCreationServlet", value = "/service-package-creation")
 public class ServicePackageCreationServlet extends HttpServlet {
+
     @EJB
-    private EmployeeService employeeService;
+    private ServicePackageService servicePackageService;
+    @EJB
+    private ServiceService serviceService;
+    @EJB
+    private ValidityPeriodService validityPeriodService;
+    @EJB
+    private OptionalProductService optionalProductService;
 
     private static final String ERROR_STRING = "errorStringSPC";
     private static final String INVALID_CHOICE = "Please select only one price given a time interval " +
@@ -47,7 +57,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
             return;
         }
 
-        if(employeeService.findServicePackageByName(name).isPresent()){
+        if(servicePackageService.findServicePackageByName(name).isPresent()){
             session.setAttribute(ERROR_STRING, NAME_ALREADY_USED);
             response.sendRedirect("home-employee?success=false");
             return;
@@ -75,7 +85,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
         }
 
         List<OptionalProductEntity> chosenOptionalProducts = findSelectedOptionalProducts(request);
-        employeeService.createServicePackage(name, chosenServices, chosenValidityPeriods, chosenOptionalProducts);
+        servicePackageService.createServicePackage(name, chosenServices, chosenValidityPeriods, chosenOptionalProducts);
 
         response.sendRedirect("home-employee?success=true");
     }
@@ -91,7 +101,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
         Optional<ServiceEntity> found;
         for(String service : selectedServices){
             serviceId = Integer.parseInt(service);
-            found = employeeService.findServiceById(serviceId);
+            found = serviceService.findServiceById(serviceId);
             found.ifPresent(chosenServices::add);
         }
 
@@ -110,7 +120,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
 
         for(String validityPeriodString : selectedValidityPeriods){
             validityPeriodId = Integer.parseInt(validityPeriodString);
-            found = employeeService.findValidityPeriodById(validityPeriodId);
+            found = validityPeriodService.findValidityPeriodById(validityPeriodId);
             if(found.isPresent()) {
                 validityPeriod = found.get();
                 if(ValidityPeriodEntity.findSameNumberOfMonths(chosenValidityPeriods, validityPeriod))
@@ -131,7 +141,7 @@ public class ServicePackageCreationServlet extends HttpServlet {
             return chosenOptionalProducts;
 
         for(String optionalProductName : selectedOptionalProducts){
-            found = employeeService.findOptionalProductByName(optionalProductName);
+            found = optionalProductService.findOptionalProductByName(optionalProductName);
             found.ifPresent(chosenOptionalProducts::add);
         }
 

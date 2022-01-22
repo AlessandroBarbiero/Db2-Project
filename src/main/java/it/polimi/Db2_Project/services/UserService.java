@@ -1,6 +1,6 @@
 package it.polimi.Db2_Project.services;
 
-import it.polimi.Db2_Project.entities.*;
+import it.polimi.Db2_Project.entities.UserEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -15,27 +15,15 @@ public class UserService {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<UserEntity> findUserById(int userId) {
-        UserEntity user = em.find(UserEntity.class, userId);
-
-        return Optional.ofNullable(user);
-    }
-
-    public Optional<ValidityPeriodEntity> findValidityPeriodById(int id){
-        return em.createNamedQuery("ValidityPeriod.findById", ValidityPeriodEntity.class)
-                .setParameter("id", id)
+    public Optional<UserEntity> findUserByUsername(String username) {
+        return em.createNamedQuery("User.findByUsername", UserEntity.class)
+                .setParameter("username", username)
                 .getResultStream().findFirst();
     }
 
-    public Optional<ServicePackageEntity> findServicePackageById(int id){
-        return em.createNamedQuery("ServicePackage.findById", ServicePackageEntity.class)
-                .setParameter("id", id)
-                .getResultStream().findFirst();
-    }
-
-    public Optional<OptionalProductEntity> findOptionalProductById(int id){
-        return em.createNamedQuery("OptionalProduct.findById", OptionalProductEntity.class)
-                .setParameter("id", id)
+    public Optional<UserEntity> findUserByEmail(String email) {
+        return em.createNamedQuery("User.findByEmail", UserEntity.class)
+                .setParameter("email", email)
                 .getResultStream().findFirst();
     }
 
@@ -51,76 +39,22 @@ public class UserService {
         }
     }
 
-    public Optional<UserEntity> findUserByUsername(String username) {
-        return em.createNamedQuery("User.findByUsername", UserEntity.class)
-                .setParameter("username", username)
-                .getResultStream().findFirst();
-    }
-
-    public Optional<UserEntity> findUserByEmail(String email) {
-        return em.createNamedQuery("User.findByEmail", UserEntity.class)
-                .setParameter("email", email)
-                .getResultStream().findFirst();
-    }
-
     // if username and password are correct it returns the user, else it returns an empty object
     public Optional<UserEntity> checkCredentials(String username, String password) {
         Optional<UserEntity> user = findUserByUsername(username);
 
         // if username is not specified or the password is incorrect
-        if(!user.isPresent() || !password.equals(user.get().getPassword())){
+        if (!user.isPresent() || !password.equals(user.get().getPassword())) {
             return Optional.empty();
         }
 
         return user;
     }
 
-    public List<ServicePackageEntity> findAllServicePackage(){
-        return em.createNamedQuery("ServicePackage.findAll", ServicePackageEntity.class).getResultList();
-    }
+    public List<UserEntity> findInsolventUsers(){
+        String sql = "SELECT * " +
+                "FROM insolvent_users ";
 
-    public List<ValidityPeriodEntity> findValidityPeriodsOfPackage(Integer chosen){
-        return em.createNamedQuery("ValidityPeriod.findByPackage", ValidityPeriodEntity.class).setParameter("packId", chosen).getResultList();
-    }
-
-    public List<OptionalProductEntity> findOptionalProductsOfPackage(Integer chosen) {
-        return em.createNamedQuery("OptionalProduct.findByPackage", OptionalProductEntity.class).setParameter("packId", chosen).getResultList();
-    }
-
-    public Optional<OrderEntity> createOrder(OrderEntity order){
-        try {
-            Optional<OrderEntity> result;
-            result = Optional.of(em.merge(order));
-            em.flush();
-            return result;
-        } catch (ConstraintViolationException e) {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<ScheduleActivationEntity> createScheduleActivation(ScheduleActivationEntity scheduleActivation){
-        try {
-            Optional<ScheduleActivationEntity> result;
-            result = Optional.of(em.merge(scheduleActivation));
-            em.flush();
-            return result;
-        } catch (ConstraintViolationException e) {
-            return Optional.empty();
-        }
-    }
-
-
-    public List<OrderEntity> findRejectedOrders(int userId) {
-        return em.createNamedQuery("Order.findRejected", OrderEntity.class).setParameter("userId", userId).getResultList();
-    }
-
-    public Optional <OrderEntity> findOrderById(int orderId){
-        return em.createNamedQuery("Order.findById", OrderEntity.class)
-                .setParameter("orderId", orderId)
-                .getResultStream().findFirst();
-    }
-
-    public List<ScheduleActivationEntity> findValidOrders(int userId){
-        return em.createNamedQuery("Schedule.findValid", ScheduleActivationEntity.class).setParameter("userId", userId).getResultList();
+        return em.createNativeQuery(sql, UserEntity.class).getResultList();
     }
 }

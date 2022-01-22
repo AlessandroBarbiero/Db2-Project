@@ -1,7 +1,8 @@
 package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.entities.*;
-import it.polimi.Db2_Project.services.UserService;
+import it.polimi.Db2_Project.services.OrderService;
+import it.polimi.Db2_Project.services.ScheduleActivationService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,7 +21,10 @@ import java.util.Optional;
 @WebServlet(name = "orderConfirmationServlet", value = "/confirmation")
 public class OrderConfirmationServlet extends HttpServlet {
     @EJB
-    private UserService userService;
+    private OrderService orderService;
+    @EJB
+    private ScheduleActivationService scheduleActivationService;
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,14 +64,14 @@ public class OrderConfirmationServlet extends HttpServlet {
         order.setTotalPrice(totalCost);
 
         Optional<OrderEntity> attachedOrder;
-        attachedOrder = userService.createOrder(order);
+        attachedOrder = orderService.createOrder(order);
         if (order.getValid() && attachedOrder.isPresent())
         {
             schedule.setOrder(attachedOrder.get());
             schedule.setStart(order.getStartDate());
             Date endDate = DateUtils.addMonths(order.getStartDate(), order.getValidityPeriod().getNumberOfMonths());
             schedule.setEnd(endDate);
-            userService.createScheduleActivation(schedule);
+            scheduleActivationService.createScheduleActivation(schedule);
         }
         session.removeAttribute("pendingOrder");
 

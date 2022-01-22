@@ -42,11 +42,11 @@
             box-sizing: border-box;
         }
 
-        .container {
+        .container, #guest {
             display: inline;
         }
 
-        button {
+        button, #guest {
             background-color: #04AA6D;
             color: white;
             padding: 14px 20px;
@@ -56,7 +56,7 @@
             width: 30%;
         }
 
-        button:hover {
+        button:hover, #guest:hover {
             opacity: 0.8;
         }
 
@@ -82,7 +82,6 @@
         .pair label, .pair input {
             display: table-cell;
         }
-
 
     </style>
 </head>
@@ -116,7 +115,7 @@
                 <br>
                 or
                 <br>
-                <a href="${pageContext.request.contextPath}/home-user"><button>Continue as guest</button></a>
+                <a href="${pageContext.request.contextPath}/home-user"><div id="guest">Continue as guest</div></a>
                 <%
                     }
                 %>

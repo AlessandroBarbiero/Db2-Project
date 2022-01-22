@@ -4,7 +4,9 @@ import it.polimi.Db2_Project.entities.OrderEntity;
 import it.polimi.Db2_Project.entities.ScheduleActivationEntity;
 import it.polimi.Db2_Project.entities.ServicePackageEntity;
 import it.polimi.Db2_Project.entities.UserEntity;
-import it.polimi.Db2_Project.services.UserService;
+import it.polimi.Db2_Project.services.OrderService;
+import it.polimi.Db2_Project.services.ScheduleActivationService;
+import it.polimi.Db2_Project.services.ServicePackageService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,22 +22,26 @@ import java.util.List;
 public class UserHomePageServlet extends HttpServlet {
 
     @EJB
-    private UserService userService;
+    private OrderService orderService;
+    @EJB
+    private ServicePackageService servicePackageService;
+    @EJB
+    private ScheduleActivationService scheduleActivationService;
 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ServicePackageEntity> packages = userService.findAllServicePackage();
+        List<ServicePackageEntity> packages = servicePackageService.findAllServicePackage();
         request.setAttribute("packages", packages);
 
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         if (user != null){
-            List<OrderEntity> rejectedOrders = userService.findRejectedOrders(user.getId());
+            List<OrderEntity> rejectedOrders = orderService.findRejectedOrders(user.getId());
             request.setAttribute("rejectedOrders", rejectedOrders);
 
-            List<ScheduleActivationEntity> validOrders = userService.findValidOrders(user.getId());
+            List<ScheduleActivationEntity> validOrders = scheduleActivationService.findValidOrders(user.getId());
             request.setAttribute("validOrders", validOrders);
         }
 

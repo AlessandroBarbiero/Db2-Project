@@ -3,7 +3,6 @@ package it.polimi.Db2_Project.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @NamedQueries(

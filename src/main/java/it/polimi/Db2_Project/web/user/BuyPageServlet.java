@@ -1,8 +1,7 @@
 package it.polimi.Db2_Project.web.user;
 
 import it.polimi.Db2_Project.entities.*;
-import it.polimi.Db2_Project.services.EmployeeService;
-import it.polimi.Db2_Project.services.UserService;
+import it.polimi.Db2_Project.services.*;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,22 +25,27 @@ import java.util.stream.Collectors;
 public class BuyPageServlet extends HttpServlet {
 
     @EJB
-    private UserService userService;
+    private ServicePackageService servicePackageService;
+    @EJB
+    private ValidityPeriodService validityPeriodService;
+    @EJB
+    private OptionalProductService optionalProductService;
+
 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<ServicePackageEntity> packages = userService.findAllServicePackage();
+        List<ServicePackageEntity> packages = servicePackageService.findAllServicePackage();
         request.setAttribute("packages", packages);
 
         Integer chosen = Integer.parseInt(request.getParameter("chosen"));
         request.setAttribute("chosenPack", chosen);
 
-        List<ValidityPeriodEntity> periods = userService.findValidityPeriodsOfPackage(chosen);
+        List<ValidityPeriodEntity> periods = validityPeriodService.findValidityPeriodsOfPackage(chosen);
         request.setAttribute("periods", periods);
 
-        List<OptionalProductEntity> optionalProducts = userService.findOptionalProductsOfPackage(chosen);
+        List<OptionalProductEntity> optionalProducts = optionalProductService.findOptionalProductsOfPackage(chosen);
         request.setAttribute("optionalProducts", optionalProducts);
 
         request.getRequestDispatcher("/UserPages/buy-page.jsp").forward(request, response);
@@ -71,12 +75,12 @@ public class BuyPageServlet extends HttpServlet {
 
         OrderEntity order = new OrderEntity(false, startDate, Timestamp.from(Instant.now()));
         // collego il validty period e il package all'ordine
-        order.setValidityPeriod(userService.findValidityPeriodById(validityPeriod).get());
-        order.setServicePackage(userService.findServicePackageById(pack).get());
+        order.setValidityPeriod(validityPeriodService.findValidityPeriodById(validityPeriod).get());
+        order.setServicePackage(servicePackageService.findServicePackageById(pack).get());
         // prendo la lista delle entity degli opt products e li collego all'ordine
         List <OptionalProductEntity> opList = new ArrayList<>();
         for (int op: optionalProducts){
-            opList.add(userService.findOptionalProductById(op).get());
+            opList.add(optionalProductService.findOptionalProductById(op).get());
         }
         order.setOptionalProducts(opList);
 
