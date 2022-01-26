@@ -70,12 +70,4 @@ public class EmployeeEntity implements Serializable {
         this.password = password;
     }
 
-
-
-
-
-
-
-
-
 }
