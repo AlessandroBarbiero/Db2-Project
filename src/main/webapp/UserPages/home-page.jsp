@@ -90,6 +90,21 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 5px 0px;
+            margin: 0px 0px;
+            border: none;
+            cursor: pointer;
+            width: 30%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
     </style>
 </head>
 <body>
@@ -103,10 +118,16 @@
     <div class="userText">
         <c:choose>
             <c:when test="${empty user}">
-                <p> GUEST </p>
+                <p> GUEST &emsp;
+                    <a href="login?notGuest=true"><button class="button" name="notGuest" value="true"> Login </button></a>
+                </p>
             </c:when>
             <c:otherwise>
-                <p> Hi, ${user.username}! Nice to see you </p>
+                <form action="login" method="post">
+                <p> Hi, ${user.username}! Nice to see you &emsp;
+                    <button type="submit" class="button" name="logout" value="true"> Logout </button>
+                </p>
+                </form>
             </c:otherwise>
         </c:choose>
     </div>

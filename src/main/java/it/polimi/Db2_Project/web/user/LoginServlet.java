@@ -35,6 +35,12 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         HttpSession session = request.getSession();
+        if(request.getParameter("logout")!=null && session.getAttribute("user")!=null){
+            session.removeAttribute("user");
+            response.sendRedirect("home-user");
+                return;
+        }
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 

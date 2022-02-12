@@ -87,7 +87,7 @@
 </head>
 
 <body>
-<h1> Landing Page! </h1>
+<h1> Telco Service </h1>
 
 <div class="row">
     <div class="column">
@@ -114,11 +114,13 @@
                 %>
                 <br>
                 or
-                <br>
+                <br><br>
                 <a href="${pageContext.request.contextPath}/home-user"><div id="guest">Continue as guest</div></a>
                 <%
                     }
                 %>
+                <br>
+                <br>
             </div>
         </form>
 
