@@ -1,4 +1,5 @@
 <%@ page import="it.polimi.Db2_Project.entities.UserEntity" %>
+<%@ page import="it.polimi.Db2_Project.entities.ServiceType" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -158,30 +159,41 @@
                         <h5 style="text-align: center"> It includes</h5>
                         <ul>
                             <c:forEach var="service" items="${pack.services}" varStatus="row">
-                                <c:if test="${service.numberOfMinutes > 0}">
-                                    <li>
-                                            <p> ${service.numberOfMinutes} MIN </p>
-                                    </li>
-                                </c:if>
-                                <c:if test="${service.numberOfSms > 0}">
-                                    <li>
-                                            <p> ${service.numberOfSms} SMS </p>
-                                    </li>
-                                </c:if>
-                                <c:if test="${service.numberOfGb > 0}">
-                                    <li>
-                                          <p> ${service.numberOfGb} GB </p>
-                                    </li>
-                                </c:if>
+                                <c:choose>
+
+                                    <c:when test="${service.type.equals(ServiceType.FIXED_PHONE)}">
+                                        <li>
+                                            <p> Unlimited calls </p>
+                                        </li>
+                                    </c:when>
+
+                                    <c:when test="${service.type.equals(ServiceType.MOBILE_PHONE)}">
+                                        <li>
+                                            <p> ${service.numberOfMinutes} MIN (mobile)</p>
+                                        </li>
+                                        <li>
+                                            <p> ${service.numberOfSms} SMS (mobile)</p>
+                                        </li>
+                                    </c:when>
+
+                                    <c:when test="${service.type.equals(ServiceType.MOBILE_INTERNET)}">
+                                        <li>
+                                            <p> ${service.numberOfGb} GB (mobile)</p>
+                                        </li>
+                                    </c:when>
+
+                                    <c:when test="${service.type.equals(ServiceType.FIXED_INTERNET)}">
+                                        <li>
+                                            <p> ${service.numberOfGb} GB (fixed)</p>
+                                        </li>
+                                    </c:when>
+                                </c:choose>
                             </c:forEach>
                         </ul>
                         <h5 style="text-align: center"> Periods</h5>
                         <ul>
                             <c:forEach var="periods" items="${pack.possibleValidityPeriods}" varStatus="row">
                                 <li>
-<%--                                    <c:if test="${periods.monthlyFee }">--%>
-<%--                                        --%>
-<%--                                    </c:if>--%>
                                     <p> ${periods.monthlyFee} € /month PER ${periods.numberOfMonths} months</p>
                                 </li>
 

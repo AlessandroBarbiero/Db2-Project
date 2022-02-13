@@ -71,6 +71,14 @@
             box-sizing: border-box;
         }
 
+        .salesReportButton{
+            border: 3px solid #f1f1f1;
+            text-align: center;
+            display: table;
+            margin-right: 10%;
+            width: 80%;
+        }
+
         form {
             border: 3px solid #f1f1f1;
             text-align: center;
@@ -126,6 +134,7 @@
                 <h2 style="font-family:Audiowide, sans-serif;">Service Package Creation</h2>
                 <p class="pair">
                     <label><b>Insert name</b></label>
+                    <br>
                     <input type="text" name="servicePackageName" required/>
                 </p>
 
@@ -212,6 +221,8 @@
 
             </div>
             <button type="submit" value="Confirm">Confirm</button>
+
+            <br><br>
         </form>
 
     </div>
@@ -225,11 +236,13 @@
 
                 <p class="pair">
                     <label><b>Name </b></label>
+                    <br>
                     <input type="text" name="name" required/>
                 </p>
 
                 <p class="pair">
                     <label><b>Monthly fee </b></label>
+                    <br>
                     <input type="number" step="0.01" name="monthlyFee" required/>
                 </p>
 
@@ -244,14 +257,23 @@
                 </p>
                 <br/>
                 <button type="submit" value="Confirm">Confirm</button>
-
+                <br><br>
             </div>
 
         </form>
 
-        <a href="sales-report">
-            <button class="button">Sales Report &#10146;</button>
-        </a>
+        <br>
+
+        <div class="salesReportButton">
+
+            <br>
+            <a href="sales-report">
+                <button class="button">Sales Report &#10146;</button>
+            </a>
+            <br><br>
+
+        </div>
+
     </div>
 
 </div>

@@ -57,12 +57,15 @@
 <!-- LOGIN FORM -->
 <form action="login-employee" method="post">
     <div class="container">
-        <label><b>Username</b></label>
+        </br>
+        </br>
+        </br>
+        <label><b>Username &emsp; </b></label>
         <input type="text" name="username" required>
          </br>
          </br>
          </br>
-        <label><b>Password</b></label>
+        <label><b>Password &emsp; </b></label>
         <input type="password" name="password" required>
          </br>
          </br>
