@@ -1,0 +1,33 @@
+//made with www.sequencediagram.org
+
+title Login
+participantspacing 8
+autonumber 
+
+participant landing-page
+participant LoginServlet
+participant EJB - UserService
+participant home-page
+
+LoginServlet<-landing-page: username, password
+
+activate LoginServlet
+	LoginServlet->LoginServlet:check missing attributes
+deactivate LoginServlet
+
+alt no problem
+	LoginServlet->EJB - UserService: checkCredentials (username, password)
+    activate EJB - UserService
+		EJB - UserService-->LoginServlet:User
+	deactivate EJB - UserService
+    alt User is present
+    	activate LoginServlet
+			LoginServlet->LoginServlet:save User in session
+            LoginServlet->home-page: redirect
+		deactivate LoginServlet
+    else User not present
+    	LoginServlet->landing-page: redirect [INVALID_CREDENTIALS]
+    end
+else missing attribute
+	LoginServlet->landing-page: redirect [EMPTY_FIELD_ERROR]
+end
