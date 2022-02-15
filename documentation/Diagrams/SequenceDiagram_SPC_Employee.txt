@@ -1,0 +1,71 @@
+//made with www.sequencediagram.org
+
+title Service Package Creation
+participantspacing 5
+autonumber 
+
+participant home-page
+participant ServicePackageCreationServlet
+
+participant EJB - VPService
+participant EJB - SService
+participant EJB - OPService
+participant EJB - SPService
+
+ServicePackageCreationServlet<-home-page:name, list<Service_Id>, list<ValidityPeriod_Id>, list<OP_Id>
+
+//control missing attributes
+activate ServicePackageCreationServlet
+	ServicePackageCreationServlet->ServicePackageCreationServlet:check missing attributes
+deactivate ServicePackageCreationServlet
+
+alt missing attribute
+	ServicePackageCreationServlet->home-page: redirect [EMPTY_FIELD_ERROR]
+	end	    
+    
+//control on name
+ServicePackageCreationServlet->EJB - SPService:findByName (name)
+activate EJB - SPService
+	EJB - SPService-->ServicePackageCreationServlet:Service Package
+deactivate EJB - SPService
+
+alt Service Package is present
+	ServicePackageCreationServlet->home-page: redirect [NAME_USED]   
+    end
+
+//retreive Validity periods
+ServicePackageCreationServlet->EJB - VPService:findById (ValidityPeriod_Id)
+activate EJB - VPService
+	EJB - VPService-->ServicePackageCreationServlet:Validity Periods
+deactivate EJB - VPService 
+destroysilent EJB - VPService
+
+
+//control on validity periods
+alt Validity Period overload
+	ServicePackageCreationServlet->home-page: redirect [INVALID_CHOICE]   
+    end
+    
+//retreive Services
+ServicePackageCreationServlet->EJB - SService:findById (Service_Id)
+activate EJB - SService
+	EJB - SService-->ServicePackageCreationServlet:Services
+deactivate EJB - SService
+destroysilent EJB - SService
+    
+//retreive Optional products
+ServicePackageCreationServlet->EJB - OPService:findById (OptionalProduct_Id)
+activate EJB - OPService
+	EJB - OPService-->ServicePackageCreationServlet:Optional Products
+deactivate EJB - OPService
+destroysilent EJB - OPService
+
+//create service package
+ServicePackageCreationServlet->EJB - SPService:createServicePackage(name, Services, ValidityPeriods, OptionalProducts)
+
+activate EJB - SPService
+
+deactivate EJB - SPService 
+destroysilent EJB - SPService
+
+ServicePackageCreationServlet->home-page: redirect  [success]

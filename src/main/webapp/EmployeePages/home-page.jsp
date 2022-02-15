@@ -20,11 +20,6 @@
             text-align: center;
         }
 
-        /*.list{*/
-        /*    padding-left: 30%;*/
-        /*    text-align: left;*/
-        /*}*/
-
         .bar {
             height: 50px;
             background: lightgray;
