@@ -1,5 +1,4 @@
 package it.polimi.Db2_Project.web.employee;
-
 import it.polimi.Db2_Project.entities.OptionalProductEntity;
 import it.polimi.Db2_Project.entities.ServiceEntity;
 import it.polimi.Db2_Project.entities.ValidityPeriodEntity;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
