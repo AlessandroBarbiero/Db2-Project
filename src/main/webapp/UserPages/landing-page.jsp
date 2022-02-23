@@ -158,8 +158,8 @@
 </div>
 
 
-
-    <p>
+<br>
+    <p style="text-align: center;">
         <%
             String errorString = (String)request.getSession().getAttribute(RegistrationServlet.getErrorString());
             if(errorString!=null) {
