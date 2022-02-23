@@ -116,7 +116,7 @@
     <br/>
 
     <label for="startDate"> Select starting date: </label>
-    <input id="startDate" name="startDate" type="date" min="<%=LocalDate.now()%>">
+    <input id="startDate" name="startDate" type="date" min="<%=LocalDate.now()%>" required>
 
     <br/>
     <br/>

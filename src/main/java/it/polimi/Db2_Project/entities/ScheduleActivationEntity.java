@@ -26,7 +26,7 @@ public class ScheduleActivationEntity implements Serializable {
     private Date end;
 
     //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn (name = "orderId", referencedColumnName = "id")
     private OrderEntity order;
 
