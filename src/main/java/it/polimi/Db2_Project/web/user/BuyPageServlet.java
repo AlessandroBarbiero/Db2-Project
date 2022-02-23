@@ -32,7 +32,6 @@ public class BuyPageServlet extends HttpServlet {
     private OptionalProductService optionalProductService;
 
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -54,6 +53,7 @@ public class BuyPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        boolean error = false;
         HttpSession session = request.getSession();
         Integer pack = Integer.parseInt(request.getParameter("packages"));
         Integer validityPeriod = Integer.parseInt(request.getParameter("periods"));
@@ -65,18 +65,23 @@ public class BuyPageServlet extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Date startDate = null;
-        try
-        {
+        try {
             startDate = sdf.parse(request.getParameter("startDate"));
-        } catch (ParseException e)
-        {
-            e.printStackTrace();
+        }
+        catch (ParseException e) {
+            error = true;
+        }
+
+        if(startDate == null || error) {
+            response.sendRedirect("home-user");
+            return;
         }
 
         OrderEntity order = new OrderEntity(false, startDate, Timestamp.from(Instant.now()));
-        // collego il validty period e il package all'ordine
+
         order.setValidityPeriod(validityPeriodService.findValidityPeriodById(validityPeriod).get());
         order.setServicePackage(servicePackageService.findServicePackageById(pack).get());
+
         // prendo la lista delle entity degli opt products e li collego all'ordine
         List <OptionalProductEntity> opList = new ArrayList<>();
         for (int op: optionalProducts){
@@ -84,10 +89,20 @@ public class BuyPageServlet extends HttpServlet {
         }
         order.setOptionalProducts(opList);
 
-        // salvo order nella session
         session.setAttribute("pendingOrder", order);
 
         response.sendRedirect("confirmation");
+    }
+
+    public static String getFullURL(HttpServletRequest request) {
+        StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+        String queryString = request.getQueryString();
+
+        if (queryString == null) {
+            return requestURL.toString();
+        } else {
+            return requestURL.append('?').append(queryString).toString();
+        }
     }
 }
 
