@@ -1,10 +1,9 @@
 package it.polimi.Db2_Project.entities;
-
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 
 @Entity
+@Table(name = "employee", schema = "db2_database")
 @NamedQueries(
         {
                 @NamedQuery(
@@ -17,10 +16,11 @@ import java.io.Serializable;
         }
 )
 
-@Table(name = "employee", schema = "db2_database")
 public class EmployeeEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    //%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +33,7 @@ public class EmployeeEntity implements Serializable {
     @Column(name = "password", nullable=false)
     private String password;
 
+    //%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
 
     public EmployeeEntity(){
     }

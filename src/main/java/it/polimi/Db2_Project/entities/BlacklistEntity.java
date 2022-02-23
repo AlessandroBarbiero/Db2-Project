@@ -8,13 +8,12 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "blacklist", schema = "db2_database")
 @NamedQueries({
-        @NamedQuery(name = "Blacklist.findAll", query = "select b from BlacklistEntity b")
+        @NamedQuery(name = "Blacklist.findAll",
+                query = "select b from BlacklistEntity b")
 })
 public class BlacklistEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-//%%%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%%
 
     @Id
     @Column(name = "userId", nullable=false)

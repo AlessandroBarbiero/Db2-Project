@@ -1,5 +1,4 @@
 package it.polimi.Db2_Project.services;
-
 import it.polimi.Db2_Project.dto.AverageBean;
 import it.polimi.Db2_Project.dto.BestSellerOptProdBean;
 import it.polimi.Db2_Project.dto.PurchasesBean;
@@ -7,7 +6,6 @@ import it.polimi.Db2_Project.dto.SalesBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
 import java.util.List;
 
 @Stateless

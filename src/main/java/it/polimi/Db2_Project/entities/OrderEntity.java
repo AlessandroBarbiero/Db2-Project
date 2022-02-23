@@ -10,15 +10,14 @@ import java.util.List;
 @Entity
 @Table(name = "order", schema = "db2_database")
 @NamedQueries({
-        @NamedQuery(name = "Order.findRejected", query = "select o from OrderEntity o where o.valid = false and o.user.id = :userId"),
+        @NamedQuery(name = "Order.findRejected", query = "select o from OrderEntity o " +
+                "where o.valid = false and o.user.id = :userId"),
         @NamedQuery(name = "Order.findById", query = "select o from OrderEntity o where o.id = :orderId"),
         @NamedQuery(name = "Order.findAmong", query = "select o from OrderEntity o where o.id in :id")
 })
 public class OrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-//%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

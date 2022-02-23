@@ -1,11 +1,10 @@
 package it.polimi.Db2_Project.entities;
-
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Table(name = "user", schema = "db2_database")
 @NamedQueries(
         {
                 @NamedQuery(
@@ -22,13 +21,12 @@ import java.util.List;
                 )
         }
 )
-@Table(name = "user", schema = "db2_database")
+
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
-
+    //%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false)
@@ -43,12 +41,12 @@ public class UserEntity implements Serializable {
     @Column(name = "email", unique=true, nullable=false)
     private String email;
 
-//%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
+    //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orders;
 
-//%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
+    //%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
 
     public UserEntity() {
     }
@@ -59,7 +57,7 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-//%%%%%%%%%%%%%%%%%% GETTERS %%%%%%%%%%%%%%%%%%%%%%%%
+    //%%%%%%%%%%%%%%%%%% GETTERS %%%%%%%%%%%%%%%%%%%%%%%%
 
     public int getId() {
         return id;
@@ -81,7 +79,7 @@ public class UserEntity implements Serializable {
         return orders;
     }
 
-//%%%%%%%%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%%%%%%
+    //%%%%%%%%%%%%%%%%%% SETTERS %%%%%%%%%%%%%%%%%%%
 
     public void setId(int user_id) {
         this.id = user_id;

@@ -1,3 +1,9 @@
+CREATE VIEW `average_number_opt_products_per_package` as
+SELECT servicePackageId, COUNT(opc.optionalProductId, opc.orderId), COUNT( distinct o.id), (COUNT(opc.optionalProductId, opc.orderId)/COUNT( distinct o.id))
+FROM `order` o LEFT JOIN optional_product_choice opc on o.id = opc.orderId
+WHERE o.valid
+GROUP BY servicePackageId;
+
 # creazione tabella della media di opt products per package
 CREATE TABLE `average_number_opt_products_per_package` (
                                         `servicePackageId` int NOT NULL,

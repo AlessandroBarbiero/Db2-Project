@@ -1,5 +1,4 @@
 package it.polimi.Db2_Project.web.user;
-
 import it.polimi.Db2_Project.entities.UserEntity;
 import it.polimi.Db2_Project.services.UserService;
 import jakarta.ejb.EJB;
@@ -9,7 +8,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.Optional;
 

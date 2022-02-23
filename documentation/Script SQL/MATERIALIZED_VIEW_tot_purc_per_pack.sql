@@ -19,6 +19,8 @@ CREATE TRIGGER total_purchases_after_insert_sp
                 values(new.id, 0)
 $$
 
+
+
 CREATE TRIGGER total_purchases_after_insert_order
     AFTER INSERT ON `order`
     FOR EACH ROW

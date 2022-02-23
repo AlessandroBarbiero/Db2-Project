@@ -1,19 +1,19 @@
 package it.polimi.Db2_Project.entities;
-
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "schedule_activation", schema = "db2_database")
-@NamedQueries({ @NamedQuery(name = "Schedule.findValid", query = "select sa from ScheduleActivationEntity sa where sa.order.user.id = :userId")})
+@NamedQueries({ @NamedQuery(name = "Schedule.findValid",
+        query = "select sa from ScheduleActivationEntity sa " +
+                "where sa.order.user.id = :userId")})
+
 public class ScheduleActivationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     //%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable=false)
@@ -26,6 +26,7 @@ public class ScheduleActivationEntity implements Serializable {
     private Date end;
 
     //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "orderId", referencedColumnName = "id")
     private OrderEntity order;

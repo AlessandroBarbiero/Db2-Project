@@ -1,5 +1,4 @@
 package it.polimi.Db2_Project.services;
-
 import it.polimi.Db2_Project.entities.OptionalProductEntity;
 import it.polimi.Db2_Project.entities.ServiceEntity;
 import it.polimi.Db2_Project.entities.ServicePackageEntity;
@@ -8,7 +7,6 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
-
 import java.util.List;
 import java.util.Optional;
 

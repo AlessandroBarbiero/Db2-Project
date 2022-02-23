@@ -1,4 +1,13 @@
-# creazione tabella 
+CREATE VIEW `best_seller_opt_prod` as
+SELECT optionalProductId, COALESCE(SUM(op.monthlyFee * vp.numberOfMonths),0) as revenue
+FROM optional_product op JOIN optional_product_choice opc on op.id = opc.optionalProductId
+    JOIN `order` o on opc.orderId = o.id JOIN validity_period vp on vp.id = o.validityPeriodId
+WHERE o.valid
+GROUP BY optionalProductId
+ORDER BY revenue desc
+LIMIT 1;
+
+# creazione tabella
 CREATE TABLE `best_seller_opt_prod` (
                                         `optionalProductId` int NOT NULL,
                                         `revenue` int NOT NULL

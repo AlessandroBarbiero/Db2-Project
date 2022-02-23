@@ -1,8 +1,6 @@
 package it.polimi.Db2_Project.entities;
-
 import it.polimi.Db2_Project.exceptions.WrongConfigurationException;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +15,12 @@ import java.util.List;
                 "select s from ServiceEntity s " +
                         "where s.id = :id")
 })
+
 public class ServiceEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    //%%%%%%%%%%% ATTRIBUTES %%%%%%%%%%%%%%
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,6 @@ public class ServiceEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private ServiceType type;
 
-//------------mobile phone---------------
     @Column(name = "numberOfSms", nullable=true)
     private int numberOfSms;
 
@@ -43,19 +43,18 @@ public class ServiceEntity implements Serializable {
     @Column(name = "extraSmsFee", nullable=true)
     private float extraSmsFee;
 
-//-------------internet-----------------
     @Column(name = "numberOfGb", nullable=true)
     private int numberOfGb;
 
     @Column(name = "extraGbFee", nullable=true)
     private float extraGbFee;
 
-//---------------------------------------
+    //%%%%%%%%%%% RELATIONS %%%%%%%%%%%%%%
 
     @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ServicePackageEntity> servicePackages;
 
-
+    //%%%%%%%%%%% CONSTRUCTORS %%%%%%%%%%%%%%
     public ServiceEntity() {
     }
 

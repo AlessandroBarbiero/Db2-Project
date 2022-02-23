@@ -1,10 +1,8 @@
 package it.polimi.Db2_Project.services;
-
 import it.polimi.Db2_Project.entities.EmployeeEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
 import java.util.Optional;
 
 @Stateless
