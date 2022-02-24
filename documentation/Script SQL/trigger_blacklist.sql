@@ -1,3 +1,12 @@
+CREATE VIEW `alerts_view` as
+SELECT distinct u.id, u.username, u.email, o.creation as lastRejection, o.totalPrice as amount
+FROM `order` o, user u
+WHERE u.id = o.userId AND o.valid = false
+GROUP BY u.id
+    HAVING COUNT(o.id)>=3;
+
+
+
 DELIMITER $$
 
 CREATE TRIGGER blacklist_population

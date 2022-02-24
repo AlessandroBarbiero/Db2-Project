@@ -78,12 +78,3 @@ FOR EACH ROW
                                  WHERE o.id = new.id)
         WHERE servicePackageId = new.servicePackageId;
     END IF;
-
-
-
-
-# coalesce: funzione che ritorna il primo valore non nullo tra i parametri passati
-        
-        
-        
-        
