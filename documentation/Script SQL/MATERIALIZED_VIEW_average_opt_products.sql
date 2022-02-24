@@ -1,5 +1,6 @@
 CREATE VIEW `average_number_opt_products_per_package` as
-SELECT servicePackageId, COUNT(opc.optionalProductId, opc.orderId), COUNT( distinct o.id), (COUNT(opc.optionalProductId, opc.orderId)/COUNT( distinct o.id))
+SELECT servicePackageId, COUNT(opc.optionalProductId, opc.orderId), COUNT( distinct o.id),
+       (COUNT(opc.optionalProductId, opc.orderId)/COUNT( distinct o.id))
 FROM `order` o LEFT JOIN optional_product_choice opc on o.id = opc.orderId
 WHERE o.valid
 GROUP BY servicePackageId;
@@ -27,7 +28,9 @@ FOR EACH ROW
 	UPDATE average_number_opt_products_per_package
 		SET optProductsSold = optProductsSold + 1,
 			`avg` = (optProductsSold / totOrders)
-        WHERE servicePackageId = (SELECT servicePackageId FROM `order` O WHERE O.id = new.orderId);
+        WHERE servicePackageId = (SELECT servicePackageId
+                                  FROM `order` O
+                                  WHERE O.id = new.orderId);
 	END IF;
 
 # inserimento di un ordine
@@ -48,7 +51,10 @@ FOR EACH ROW
     IF old.valid = false AND new.valid = true THEN
         UPDATE average_number_opt_products_per_package
         SET totOrders = totOrders + 1,
-            optProductsSold = optProductsSold + (SELECT COUNT(opc.optionalProductId) FROM optional_product_choice opc WHERE opc.orderId = new.id),
+            optProductsSold = optProductsSold +
+                              (SELECT COUNT(opc.optionalProductId)
+                              FROM optional_product_choice opc
+                              WHERE opc.orderId = new.id),
             `avg` = (optProductsSold / totOrders)
         WHERE servicePackageId = new.servicePackageId;
     END IF;

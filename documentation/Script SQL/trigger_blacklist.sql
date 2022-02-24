@@ -25,6 +25,10 @@ BEGIN
 				WHERE new.userId = u.id);
 		END IF;
 	END IF;
-END $$
+END
+
+
+
+$$
 
 DELIMITER ;
