@@ -12,7 +12,6 @@ public class AverageBean {
         this.avg = avg;
     }
 
-
     public String getServicePackageName()
     {
         return servicePackageName;
