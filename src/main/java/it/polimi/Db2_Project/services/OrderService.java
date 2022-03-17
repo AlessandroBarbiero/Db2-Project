@@ -1,10 +1,14 @@
 package it.polimi.Db2_Project.services;
 import it.polimi.Db2_Project.entities.OrderEntity;
+import it.polimi.Db2_Project.entities.ScheduleActivationEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
+import org.apache.commons.lang3.time.DateUtils;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +42,18 @@ public class OrderService {
 
     public Optional<OrderEntity> createOrder(OrderEntity order){
         try {
+            ScheduleActivationEntity schedule = new ScheduleActivationEntity();
             Optional<OrderEntity> result;
             result = Optional.of(em.merge(order));
+            if (order.getValid())
+            {
+                schedule.setOrder(result.get());
+                schedule.setStart(order.getStartDate());
+                Date endDate = DateUtils.addMonths(order.getStartDate(), order.getValidityPeriod().getNumberOfMonths());
+                schedule.setEnd(endDate);
+                em.merge(schedule);
+            }
+
             em.flush();
             return result;
         } catch (ConstraintViolationException e) {

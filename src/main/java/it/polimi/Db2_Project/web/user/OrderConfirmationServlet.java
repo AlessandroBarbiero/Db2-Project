@@ -50,27 +50,19 @@ public class OrderConfirmationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         OrderEntity order = (OrderEntity) session.getAttribute("pendingOrder");
-        ScheduleActivationEntity schedule = new ScheduleActivationEntity();
+        UserEntity user = (UserEntity) session.getAttribute("user");
 
         order.setValid(isValidPayment(req));
         order.setCreation(Timestamp.from(Instant.now()));
-        UserEntity user = (UserEntity) session.getAttribute("user");
         order.setUser(user);
 
         float totalCost = Float.parseFloat(req.getParameter("totalCost"));
 
         order.setTotalPrice(totalCost);
 
-        Optional<OrderEntity> attachedOrder;
-        attachedOrder = orderService.createOrder(order);
-        if (order.getValid() && attachedOrder.isPresent())
-        {
-            schedule.setOrder(attachedOrder.get());
-            schedule.setStart(order.getStartDate());
-            Date endDate = DateUtils.addMonths(order.getStartDate(), order.getValidityPeriod().getNumberOfMonths());
-            schedule.setEnd(endDate);
-            scheduleActivationService.createScheduleActivation(schedule);
-        }
+        orderService.createOrder(order);
+
+
         session.removeAttribute("pendingOrder");
 
         resp.sendRedirect("home-user");

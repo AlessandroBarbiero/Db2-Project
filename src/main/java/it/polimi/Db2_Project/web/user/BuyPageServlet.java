@@ -53,13 +53,25 @@ public class BuyPageServlet extends HttpServlet {
 
         boolean error = false;
         HttpSession session = request.getSession();
-        Integer pack = Integer.parseInt(request.getParameter("packages"));
-        Integer validityPeriod = Integer.parseInt(request.getParameter("periods"));
+        Integer pack, validityPeriod;
+        List<Integer> optionalProducts;
+
         String[] optionalProductsStr = request.getParameterValues("optionalProducts");
         if(optionalProductsStr == null){
             optionalProductsStr = new String[]{};
         }
-        List<Integer> optionalProducts = Arrays.stream(optionalProductsStr).map(Integer::parseInt).collect(Collectors.toList());
+
+        try {
+            pack = Integer.parseInt(request.getParameter("packages"));
+            validityPeriod = Integer.parseInt(request.getParameter("periods"));
+            optionalProducts = Arrays.stream(optionalProductsStr).map(Integer::parseInt).collect(Collectors.toList());
+
+        }catch (NumberFormatException e){
+            response.sendRedirect("home-user");
+            return;
+        }
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Date startDate = null;
@@ -77,14 +89,16 @@ public class BuyPageServlet extends HttpServlet {
 
         OrderEntity order = new OrderEntity(false, startDate, Timestamp.from(Instant.now()));
 
-        order.setValidityPeriod(validityPeriodService.findValidityPeriodById(validityPeriod).get());
-        order.setServicePackage(servicePackageService.findServicePackageById(pack).get());
+        validityPeriodService.findValidityPeriodById(validityPeriod).ifPresent(order::setValidityPeriod);
+        servicePackageService.findServicePackageById(pack).ifPresent(order::setServicePackage);
 
-        // prendo la lista delle entity degli opt products e li collego all'ordine
+
+        // link optional products to the order
         List <OptionalProductEntity> opList = new ArrayList<>();
         for (int op: optionalProducts){
-            opList.add(optionalProductService.findOptionalProductById(op).get());
+            optionalProductService.findOptionalProductById(op).ifPresent(opList::add);
         }
+
         order.setOptionalProducts(opList);
 
         session.setAttribute("pendingOrder", order);
